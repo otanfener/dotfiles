@@ -1,0 +1,23 @@
+#!/bin/sh
+WS=""
+# Rename but keeping workspace num
+if [ "$1" = "num" ]; then
+    WS=$(python3 -c "import json; print(next(filter(lambda w: w['focused'], json.loads('$(i3-msg -t get_workspaces)')))['num'])")":"
+fi
+
+# Create new temp workspace
+if [ "$1" = "temp" ]; then
+    i3 workspace "$(date +%H%M%S)"
+    return
+fi
+
+# Move to new temp workspace
+if [ "$1" = "temp-move" ]; then
+    ws="$(date +%H%M%S)"
+    i3 move container to workspace "$ws"
+    i3 workspace "$ws"
+    return
+fi
+
+# Default
+i3-input -F "rename workspace to \"$WS%s\"" -P 'Rename workspace: '

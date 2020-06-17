@@ -1,0 +1,42 @@
+#!/bin/bash
+# Giap Tran <txgvnn@gmail.com>
+#cat >> .i3/config <<EOF
+#bindsym $mod+F1 exec fn 1
+#bindsym $mod+Fn exec fn n
+#EOF
+if [ "${DEBUG:-0}" -eq 1 ]; then
+	set -x
+fi
+TMP="/tmp/.${LOGNAME}_i3_fn.tmp"
+
+_fn(){
+	name=f"$1"
+	pidfile="/tmp/.${LOGNAME}_i3_${name}.pid"
+	# check terminal isn't running
+	if [ ! -f "$pidfile" ] || [ ! -d "/proc/$(cat $pidfile)" ]; then
+		echo "${name}" > "$TMP"
+		# create new terminal and move to scatchpad
+		i3-sensible-terminal -e ~/.i3/bin/fn &
+		echo "$!" > "$pidfile"
+		sleep 1
+	fi
+	# finally, need show terminal
+	i3 '[con_mark="^'${name}'$"]' scratchpad show &>/dev/null
+}
+
+# create new terminal
+if [ "$#" -eq 0 ]; then
+	name=$(cat "$TMP")
+	i3 mark "$name"
+	i3 move scratchpad &> /dev/null
+	if which screen > /dev/null; then
+		screen -S "$name" -t "$name"
+	fi
+	bash
+	exit
+fi
+
+# toggle Fn
+if [[ "$1" -ge 0 && "$1" -le 12 ]]; then
+	_fn "$1"
+fi

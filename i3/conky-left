@@ -1,0 +1,37 @@
+use_xft yes
+xftfont Hack Nerd Font Mono:pixelsize=12
+xftalpha 0.1
+update_interval 10
+total_run_times 0
+background no
+
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_colour 000000
+own_window_argb_visual no
+own_window_argb_value 0
+
+double_buffer yes
+#minimum_size 500 200
+#maximum_width 500
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+default_color 88ABC4
+default_shade_color red
+default_outline_color green
+alignment top_left
+gap_x 30
+gap_y 20
+
+no_buffers no
+override_utf8_locale yes
+use_spacer right
+
+TEXT
+${color}
+${execp cat "/tmp/.${LOGNAME}_i3_daemon"}
+${texeci 1800 ~/.config/i3/bin/daemon > "/tmp/.${LOGNAME}_i3_daemon" 2>&1}
