@@ -30,7 +30,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
-Plug 'tyru/open-browser.vim'
 Plug 'joshdick/onedark.vim'
 call plug#end()
 
