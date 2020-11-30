@@ -1,29 +1,26 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export TERM="xterm-256color" 
-export XDG_CURRENT_DESKTOP=Unity;
+
 # Path to your oh-my-zsh installation.
-export VIRTUALENVWRAPPER_PYTHON=/home/linuxbrew/.linuxbrew/bin/python3
-export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_VIRTUALENV=/home/linuxbrew/.linuxbrew/bin/virtualenv
-source /home/linuxbrew/.linuxbrew/bin/virtualenvwrapper.sh
-source <(kubectl completion zsh)
+export AWS_CLI_AUTO_PROMPT=on-partial
 export ZSH="/home/ozan/.oh-my-zsh"
-export PATH=$PATH:/home/istio/bin
-export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin/brew
-export PATH=$PATH:/usr/local/go/bin
-alias vpn="sudo openvpn --config /home/ozan/Documents/workspace/dali.ovpn"
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k" 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs status)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs ram  os_icon)
-POWERLEVEL9K_MODE='nerdfont-complete'
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -44,7 +41,7 @@ POWERLEVEL9K_MODE='nerdfont-complete'
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -75,18 +72,22 @@ POWERLEVEL9K_MODE='nerdfont-complete'
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
-zsh-autosuggestions
-colored-man-pages
-zsh-syntax-highlighting)
+	zsh-autosuggestions
+	colored-man-pages
+	zsh-syntax-highlighting)
 
-
+source ~/.config/zsh-interactive-cd.plugin.zsh
 source $ZSH/oh-my-zsh.sh
 
+if type rg &> /dev/null; then
+ export FZF_DEFAULT_COMMAND='rg --files'
+ export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -112,3 +113,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.8/bin:$PATH"
+export PATH="/opt/zotero:$PATH"

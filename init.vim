@@ -16,7 +16,7 @@ Plug 'fatih/vim-hclfmt'
 Plug 'fatih/vim-nginx' , {'for' : 'nginx'}
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
 Plug 'plasticboy/vim-markdown'
@@ -45,6 +45,14 @@ if (empty($TMUX))
     set termguicolors
   endif
 endif
+
+set number
+set showcmd
+set noerrorbells
+set paste
+set noswapfile
+set nobackup
+set conceallevel=0
 
 let s:modes = {
       \ 'n': 'NORMAL', 
