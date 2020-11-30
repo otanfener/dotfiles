@@ -30,7 +30,7 @@ sudo apt-get install -qq \
 	-y --no-install-recommends \
 
 #Install Docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add  -
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
     focal \
@@ -47,23 +47,10 @@ echo "===> Adding current user to docker group"
 sudo usermod -aG docker $USER
 
 # Install Oh-my-zsh
-if [ ! -d "${HOME}/.oh-my-zsh"]; then
-	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+if [ ! -d "${HOME}/.oh-my-zsh" ]; then
+	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash /dev/stdin --unattended
 fi
 
-mkdir -p ${HOME}/.linuxbrew/bin 
-#Install Homebrew
-LINUXBREW_FILE="${HOME}/.linuxbrew/Homebrew"
-if [! -d "${LINUXBREW_FILE}" ]; then
-	git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
-	ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
-fi
-
-#Install Powerlevel10k theme
-POWERLEVEL10K_FILE="${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
-if [! -d "${POWERLEVEL10K_FILE}" ]; then
-	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${POWERLEVEL10K_FILE}
-fi
 # Install NeoVim
 
 if ! [ -x "$(command -v nvim)" ]; then
@@ -115,7 +102,7 @@ fi
 
 #Install ZSH Plugins
 
-if [ ! -d "${HOME}/.zsh"]; then
+if [ ! -d "${HOME}/.zsh" ]; then
 	echo " ==> Installing zsh pluings"
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.zsh/zsh-syntax-highlighting"
 	git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.zsh/zsh-autosuggestions"
@@ -131,26 +118,17 @@ if [ ! -d "${HOME}/.tmux/plugins" ]; then
 	git clone https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
 fi
 
-# Make zsh default
-echo "==> Setting shell to zsh"
-#chsh -s $(which zsh)
-
-
 echo "==> Creating temporay directory for dot files"
-mkdir -p /tmp/code
+mkdir -p "${HOME}/development"
 
-if [ ! -d /tmp/code ]; then
+if [ ! -d "${HOME}/development/dotfiles" ]; then
 	echo " ===> Setting up dotfiles"
-	pushd /tmp/code
+	pushd "${HOME}/development"
 	git clone --recursive https://github.com/otanfener/dotfiles.git
-	pushd /tmp/code/dotfiles
+	pushd "${HOME}/development/dotfiles"
 	ln -sfn $(pwd)/init.vim "${HOME}/.config/nvim/init.vim"
-	ln -sfn $(pwd)/zshrc "${HOME}/.zshrc"
-	ln -sfn $(pwd)/tmuxconf "${HOME}/.tmux.conf"
-	ln -sfn $(pwd)/gitconfig "${HOME}/.gitconfig"
-#	ln -sfn $(pwd)/Brewfile "${HOME}/Brewfile"
+	ln -sfn $(pwd)/.zshrc "${HOME}/.zshrc"
+	ln -sfn $(pwd)/.tmux.conf "${HOME}/.tmux.conf"
+	ln -sfn $(pwd)/.gitconfig "${HOME}/.gitconfig"
 fi
-
-echo "===> Installing brew packages"
-
-#brew bundle install
+echo "==> Done"
