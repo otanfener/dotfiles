@@ -1,8 +1,7 @@
 #!/bin/bash
 
-set -e
 set -x
-
+set -e 
 echo "==> Updating and upgrading packages ..."
 
 
@@ -34,7 +33,7 @@ sudo apt-get install -qq \
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
+    focal \
    stable"
 sudo apt-get -y update
 
@@ -45,9 +44,7 @@ sudo apt-get install -qq \
 	 -y \
 # Docker post install
 echo "===> Adding current user to docker group"
-sudo groupadd docker
 sudo usermod -aG docker $USER
-newgrp docker
 
 # Install Oh-my-zsh
 if [ ! -d "${HOME}/.oh-my-zsh"]; then
@@ -136,7 +133,7 @@ fi
 
 # Make zsh default
 echo "==> Setting shell to zsh"
-chsh -s $(which zsh)
+#chsh -s $(which zsh)
 
 
 echo "==> Creating temporay directory for dot files"
@@ -151,9 +148,9 @@ if [ ! -d /tmp/code ]; then
 	ln -sfn $(pwd)/zshrc "${HOME}/.zshrc"
 	ln -sfn $(pwd)/tmuxconf "${HOME}/.tmux.conf"
 	ln -sfn $(pwd)/gitconfig "${HOME}/.gitconfig"
-	ln -sfn $(pwd)/Brewfile "${HOME}/Brewfile"
+#	ln -sfn $(pwd)/Brewfile "${HOME}/Brewfile"
 fi
 
 echo "===> Installing brew packages"
 
-brew bundle install
+#brew bundle install
