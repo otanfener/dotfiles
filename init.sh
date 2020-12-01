@@ -46,11 +46,23 @@ sudo apt-get install -qq \
 echo "===> Adding current user to docker group"
 sudo usermod -aG docker $USER
 
+#Install Homebrew
+LINUXBREW_FILE="${HOME}/.linuxbrew/Homebrew"
+if [ ! -d "${LINUXBREW_FILE}" ]; then
+	mkdir -p ${HOME}/.linuxbrew/bin 
+	git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+	ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+fi
 # Install Oh-my-zsh
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
 	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash /dev/stdin --unattended
 fi
 
+#Install Powerlevel10k theme
+POWERLEVEL10K_FILE="${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
+if [ ! -d "${POWERLEVEL10K_FILE}" ]; then
+	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${POWERLEVEL10K_FILE}
+fi
 # Install NeoVim
 
 if ! [ -x "$(command -v nvim)" ]; then
