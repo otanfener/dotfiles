@@ -17,6 +17,9 @@ sudo apt-get install -qq \
 	curl \
 	git \
 	ripgrep \
+	pandoc \
+	poppler-utils \
+	ffmpeg \
 	silversearcher-ag \
 	zsh \
 	fzf \
@@ -28,6 +31,17 @@ sudo apt-get install -qq \
 	ca-certificates \
 	build-essential \
 	-y --no-install-recommends \
+
+
+#Install rga
+RGA_VERSION=v0.9.6
+RGA_FILE=("$HOME"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl)
+
+if [ ! -d "${RGA_FILE}" ]; then
+	cd "$HOME" && curl -sL https://github.com/phiresky/ripgrep-all/releases/download/"$RGA_VERSION"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl.tar.gz | tar -xz
+	sudo mv ${RGA_FILE}/rga /usr/local/sbin
+fi
+		
 
 #Install Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add  -
