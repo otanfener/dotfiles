@@ -1,5 +1,17 @@
 call plug#begin()
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'majutsushi/tagbar'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
 Plug 'preservim/nerdtree'
+Plug 'tomasiser/vim-code-dark'
+Plug 'pangloss/vim-javascript'
+Plug 'szw/vim-maximizer'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'kassio/neoterm'
+Plug 'tpope/vim-commentary'
+Plug 'sbdchd/neoformat'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'Raimondi/delimitMate'
@@ -10,12 +22,7 @@ Plug 'corylanou/vim-present', {'for' : 'present'}
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'ervandew/supertab'
-Plug 'fatih/molokai'
-Plug 'fatih/vim-go'
-Plug 'fatih/vim-hclfmt'
-Plug 'fatih/vim-nginx' , {'for' : 'nginx'}
 Plug 'godlygeek/tabular'
-Plug 'hashivim/vim-hashicorp-tools'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
@@ -28,9 +35,9 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
-Plug 'joshdick/onedark.vim'
 call plug#end()
 
 if (empty($TMUX))
@@ -46,14 +53,68 @@ if (empty($TMUX))
   endif
 endif
 
+"DEFAULT SETTINGS"
 set number
 set showcmd
 set noerrorbells
-set paste
 set noswapfile
 set nobackup
 set conceallevel=0
+set nofsync
 
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+
+"CUSTOM MAPPINGS"
+
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+
+"CONFIGURATION"
+
+"Color scheme"
+colorscheme codedark
+"szw/vim-maximizer"
+nnoremap <Leader>m :MaximizerToggle!<CR>
+"kassio/neoterm"
+let g:neoterm_default_mod = 'vertical'
+let g:neoterm_size = 60
+let g:neoterm_autoinsert = 1
+nnoremap <C-q> :Ttoggle<CR>
+inoremap <C-q> <Esc>:Ttoggle<CR>
+tnoremap <C-q> <C-\><C-n>:Ttoggle<CR>
+"sdbchd/neoformat"
+nnoremap <Leader>F :Neoformat prettier<CR>
+"NERDTree"
+nnoremap <C-n> :NERDTreeToggle<CR>
+"Coc.vim"
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-clangd']
+"itchyny/lightline.vim"
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name'
+      \ },
+      \	'colorscheme':'codedark',
+      \ }
+"fzf.vim"
+noremap <C-g> 	:Rg<Cr>
+noremap <C-f>   :Files<Cr>
+inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
+	\ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+	\ fzf#wrap({'dir': expand('%:p:h')}))
+"fugitive.vim"
+nnoremap <leader>ss :G<cr>
 let s:modes = {
       \ 'n': 'NORMAL', 
       \ 'i': 'INSERT', 
@@ -69,6 +130,7 @@ let s:modes = {
       \}
 
 let s:prev_mode = ""
+let g:vim_markdown_frontmatter = 1
 function! StatusLineMode()
   let cur_mode = get(s:modes, mode(), '')
 
@@ -137,4 +199,3 @@ set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
 set statusline+=\ %*
 
 syntax on
-colorscheme onedark
