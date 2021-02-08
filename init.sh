@@ -28,6 +28,7 @@ sudo apt-get install -qq \
 	tree \
 	unzip \
  	wget \
+	universal-ctags \
 	ca-certificates \
 	build-essential \
 	-y --no-install-recommends \
@@ -41,7 +42,14 @@ if [ ! -d "${RGA_FILE}" ]; then
 	cd "$HOME" && curl -sL https://github.com/phiresky/ripgrep-all/releases/download/"$RGA_VERSION"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl.tar.gz | tar -xz
 	sudo mv ${RGA_FILE}/rga /usr/local/sbin
 fi
-		
+
+#Install Nvm
+NVM_VERSION=v0.37.2
+NVM_FILE="${HOME}/.nvm"
+
+if [ ! -d "{$NVM_FILE}" 	]; then
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+fi
 
 #Install Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add  -
@@ -83,7 +91,7 @@ if ! [ -x "$(command -v nvim)" ]; then
 	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 	chmod u+x nvim.appimage
 	sudo mv nvim.appimage /usr/local/sbin/nvim
-	ln -sfn /usr/bin/vim /usr/local/sbin/nvim
+	sudo ln -sfn /usr/bin/vim /usr/local/sbin/nvim
 fi
 
 
