@@ -23,8 +23,7 @@ sudo apt-get install -qq \
 	silversearcher-ag \
 	zsh \
 	fzf \
-	socat \
-	tmux \
+	socat \ tmux \
 	tree \
 	unzip \
  	wget \
@@ -109,7 +108,6 @@ if [ ! -f "${VIM_PLUG_FILE}" ]; then
 	git clone  'https://github.com/ludovicchabant/vim-gutentags'
 	git clone  'https://github.com/itchyny/lightline.vim'
 	git clone  'https://github.com/itchyny/vim-gitbranch'
-	git clone  'https://github.com/preservim/nerdtree'
 	git clone  'https://github.com/tomasiser/vim-code-dark'
 	git clone  'https://github.com/pangloss/vim-javascript'
 	git clone  'https://github.com/ryanoasis/vim-devicons'
