@@ -74,7 +74,7 @@ sudo usermod -aG docker $USER
 LINUXBREW_FILE="${HOME}/.linuxbrew/Homebrew"
 if [ ! -d "${LINUXBREW_FILE}" ]; then
 	mkdir -p ${HOME}/.linuxbrew/bin 
-	git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+	git clone --depth 1 https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
 	ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 fi
 # Install Oh-my-zsh
@@ -85,7 +85,7 @@ fi
 #Install Powerlevel10k theme
 POWERLEVEL10K_FILE="${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
 if [ ! -d "${POWERLEVEL10K_FILE}" ]; then
-	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${POWERLEVEL10K_FILE}
+	git clone --depth 1 https://github.com/romkatv/powerlevel10k.git ${POWERLEVEL10K_FILE}
 fi
 # Install NeoVim
 
@@ -148,18 +148,18 @@ fi
 
 if [ ! -d "${HOME}/.zsh" ]; then
 	echo " ==> Installing zsh pluings"
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-	git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+	git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+	git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 fi
 
 #Install TMUX Pluings
 
 if [ ! -d "${HOME}/.tmux/plugins" ]; then
 	echo " ==> Installing tmux plugins"
-	git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
-	git clone https://github.com/tmux-plugins/tmux-open.git "${HOME}/.tmux/plugins/tmux-open"
-	git clone https://github.com/tmux-plugins/tmux-yank.git "${HOME}/.tmux/plugins/tmux-yank"
-	git clone https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
+	git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+	git clone --depth 1 https://github.com/tmux-plugins/tmux-open.git "${HOME}/.tmux/plugins/tmux-open"
+	git clone --depth 1 https://github.com/tmux-plugins/tmux-yank.git "${HOME}/.tmux/plugins/tmux-yank"
+	git clone --depth 1 https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
 fi
 
 echo "==> Creating temporay directory for dot files"
