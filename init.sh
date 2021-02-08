@@ -22,7 +22,7 @@ sudo apt-get install -qq \
 	ffmpeg \
 	silversearcher-ag \
 	zsh \
-:wq:	socat \
+	socat \
 	tmux \
 	tree \
 	unzip \
@@ -46,7 +46,7 @@ fi
 NVM_VERSION=v0.37.2
 NVM_FILE="${HOME}/.nvm"
 
-if [ ! -d "{$NVM_FILE}" 	]; then
+if [ ! -d "{$NVM_FILE}"	]; then
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 fi
 
@@ -90,7 +90,7 @@ if ! [ -x "$(command -v nvim)" ]; then
 	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 	chmod u+x nvim.appimage
 	sudo mv nvim.appimage /usr/local/sbin/nvim
-	sudo ln -sfn /usr/bin/vim /usr/local/sbin/nvim
+	sudo ln -sfn /usr/local/sbin/nvim /usr/bin/vim
 fi
 
 
@@ -136,7 +136,6 @@ if [ ! -f "${VIM_PLUG_FILE}" ]; then
 	git clone  'https://github.com/t9md/vim-choosewin'
 	git clone  'https://github.com/tmux-plugins/vim-tmux'
 	git clone  'https://github.com/tmux-plugins/vim-tmux-focus-events'
-	git clone  'https://github.com/tpope/vim-commentary'
 	git clone  'https://github.com/tpope/vim-eunuch'
 	git clone  'https://github.com/tpope/vim-fugitive'
 	git clone  'https://github.com/airblade/vim-gitgutter'
@@ -148,8 +147,8 @@ fi
 
 if [ ! -d "${HOME}/.zsh" ]; then
 	echo " ==> Installing zsh pluings"
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/zsh-syntax-highlighting"
-	git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/zsh-autosuggestions"
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+	git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 fi
 
 #Install TMUX Pluings
