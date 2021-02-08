@@ -23,7 +23,8 @@ sudo apt-get install -qq \
 	silversearcher-ag \
 	zsh \
 	fzf \
-	socat \ tmux \
+	socat \
+	tmux \
 	tree \
 	unzip \
  	wget \
