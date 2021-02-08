@@ -116,19 +116,19 @@ if [ ! -f "${VIM_PLUG_FILE}" ]; then
 	git clone  'https://github.com/SirVer/ultisnips'
 	git clone  'https://github.com/arthurxavierx/vim-caser'
 	git clone  'https://github.com/cespare/vim-toml'
-	git clone  'https://github.com/corylanou/vim-present', {'for' : 'present'}
-	git clone  'https://github.com/ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
-	git clone  'https://github.com/elzr/vim-json', {'for' : 'json'}
+	git clone  'https://github.com/corylanou/vim-present'
+	git clone  'https://github.com/ekalinin/Dockerfile.vim'
+	git clone  'https://github.com/elzr/vim-json'
 	git clone  'https://github.com/ervandew/supertab'
 	git clone  'https://github.com/godlygeek/tabular'
-	git clone  'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
+	git clone  'https://github.com/junegunn/fzf'
 	git clone  'https://github.com/junegunn/fzf.vim'
 	git clone  'https://github.com/mileszs/ack.vim'
 	git clone  'https://github.com/plasticboy/vim-markdown'
 	git clone  'https://github.com/roxma/vim-tmux-clipboard'
 	git clone  'https://github.com/scrooloose/nerdtree'
 	git clone  'https://github.com/t9md/vim-choosewin'
-	git clone  'https://github.com/tmux-plugins/vim-tmux', {'for': 'tmux'}
+	git clone  'https://github.com/tmux-plugins/vim-tmux'
 	git clone  'https://github.com/tmux-plugins/vim-tmux-focus-events'
 	git clone  'https://github.com/tpope/vim-commentary'
 	git clone  'https://github.com/tpope/vim-eunuch'
