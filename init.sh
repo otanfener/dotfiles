@@ -14,7 +14,8 @@ sudo apt-get install -qq \
 	apt-transport-https \
 	gnupg-agent \
 	software-properties-common \
-	python3.8
+	python3.8 \
+	python3-pip \
 	curl \
 	git \
 	ripgrep \
@@ -33,7 +34,8 @@ sudo apt-get install -qq \
 	build-essential \
 	-y --no-install-recommends \
 
-
+#Install neovim plugin
+pip3 install neovim
 #Install rga
 RGA_VERSION=v0.9.6
 RGA_FILE=("$HOME"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl)
@@ -165,7 +167,7 @@ mkdir -p "${HOME}/development"
 
 if [ ! -d "${HOME}/development/dotfiles" ]; then
 	echo " ===> Setting up dotfiles"
-	cp ./zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
+	echo 
 	pushd "${HOME}/development"
 	git clone --recursive https://github.com/otanfener/dotfiles.git
 	pushd "${HOME}/development/dotfiles"
@@ -173,5 +175,6 @@ if [ ! -d "${HOME}/development/dotfiles" ]; then
 	ln -sfn $(pwd)/.zshrc "${HOME}/.zshrc"
 	ln -sfn $(pwd)/.tmux.conf "${HOME}/.tmux.conf"
 	ln -sfn $(pwd)/.gitconfig "${HOME}/.gitconfig"
+	cp zsh-interactive-cd.plugin.zsh "${HOME}/.config/"
 fi
 echo "==> Done"
