@@ -14,6 +14,7 @@ sudo apt-get install -qq \
 	apt-transport-https \
 	gnupg-agent \
 	software-properties-common \
+	python3.8
 	curl \
 	git \
 	ripgrep \
@@ -103,44 +104,42 @@ if [ ! -f "${VIM_PLUG_FILE}" ]; then
 
 	mkdir -p "${HOME}/.config/nvim/plugged"
 	pushd "${HOME}/.config/nvim/plugged"
-	git clone "https://github.com/neoclide/coc.nvim"
-	git clone "https://github.com/majutsushi/tagbar"
-	git clone  'https://github.com/ludovicchabant/vim-gutentags'
-	git clone  'https://github.com/itchyny/lightline.vim'
-	git clone  'https://github.com/itchyny/vim-gitbranch'
-	git clone  'https://github.com/tomasiser/vim-code-dark'
-	git clone  'https://github.com/pangloss/vim-javascript'
-	git clone  'https://github.com/ryanoasis/vim-devicons'
-	git clone  'https://github.com/szw/vim-maximizer'
-	git clone  'https://github.com/christoomey/vim-tmux-navigator'
-	git clone  'https://github.com/kassio/neoterm'
-	git clone  'https://github.com/tpope/vim-commentary'
-	git clone  'https://github.com/sbdchd/neoformat'
-	git clone  'https://github.com/AndrewRadev/splitjoin.vim'
-	git clone  'https://github.com/ConradIrwin/vim-bracketed-paste'
-	git clone  'https://github.com/Raimondi/delimitMate'
-	git clone  'https://github.com/SirVer/ultisnips'
-	git clone  'https://github.com/arthurxavierx/vim-caser'
-	git clone  'https://github.com/cespare/vim-toml'
-	git clone  'https://github.com/corylanou/vim-present'
-	git clone  'https://github.com/ekalinin/Dockerfile.vim'
-	git clone  'https://github.com/elzr/vim-json'
-	git clone  'https://github.com/ervandew/supertab'
-	git clone  'https://github.com/godlygeek/tabular'
-	git clone  'https://github.com/junegunn/fzf'
-	git clone  'https://github.com/junegunn/fzf.vim'
-	git clone  'https://github.com/mileszs/ack.vim'
-	git clone  'https://github.com/plasticboy/vim-markdown'
-	git clone  'https://github.com/roxma/vim-tmux-clipboard'
-	git clone  'https://github.com/scrooloose/nerdtree'
-	git clone  'https://github.com/t9md/vim-choosewin'
-	git clone  'https://github.com/tmux-plugins/vim-tmux'
-	git clone  'https://github.com/tmux-plugins/vim-tmux-focus-events'
-	git clone  'https://github.com/tpope/vim-eunuch'
-	git clone  'https://github.com/tpope/vim-fugitive'
-	git clone  'https://github.com/airblade/vim-gitgutter'
-	git clone  'https://github.com/tpope/vim-repeat'
-	git clone  'https://github.com/tpope/vim-scriptease'
+	git clone --depth 1 'https://github.com/neoclide/coc.nvim'
+	git clone --depth 1 'https://github.com/majutsushi/tagbar'
+	git clone --depth 1 'https://github.com/ludovicchabant/vim-gutentags'
+	git clone --depth 1 'https://github.com/itchyny/lightline.vim'
+	git clone --depth 1 'https://github.com/itchyny/vim-gitbranch'
+	git clone --depth 1 'https://github.com/tomasiser/vim-code-dark'
+	git clone --depth 1 'https://github.com/pangloss/vim-javascript'
+	git clone --depth 1 'https://github.com/ryanoasis/vim-devicons'
+	git clone --depth 1 'https://github.com/szw/vim-maximizer'
+	git clone --depth 1 'https://github.com/christoomey/vim-tmux-navigator'
+	git clone --depth 1 'https://github.com/kassio/neoterm'
+	git clone --depth 1 'https://github.com/tpope/vim-commentary'
+	git clone --depth 1 'https://github.com/sbdchd/neoformat'
+	git clone --depth 1 'https://github.com/AndrewRadev/splitjoin.vim'
+	git clone --depth 1 'https://github.com/ConradIrwin/vim-bracketed-paste'
+	git clone --depth 1 'https://github.com/Raimondi/delimitMate'
+	git clone --depth 1 'https://github.com/SirVer/ultisnips'
+	git clone --depth 1 'https://github.com/arthurxavierx/vim-caser'
+	git clone --depth 1 'https://github.com/cespare/vim-toml'
+	git clone --depth 1 'https://github.com/corylanou/vim-present'
+	git clone --depth 1 'https://github.com/ekalinin/Dockerfile.vim'
+	git clone --depth 1 'https://github.com/elzr/vim-json'
+	git clone --depth 1 'https://github.com/ervandew/supertab'
+	git clone --depth 1 'https://github.com/godlygeek/tabular'
+	git clone --depth 1 'https://github.com/junegunn/fzf'
+	git clone --depth 1 'https://github.com/plasticboy/vim-markdown'
+	git clone --depth 1 'https://github.com/roxma/vim-tmux-clipboard'
+	git clone --depth 1 'https://github.com/scrooloose/nerdtree'
+	git clone --depth 1 'https://github.com/t9md/vim-choosewin'
+	git clone --depth 1 'https://github.com/tmux-plugins/vim-tmux'
+	git clone --depth 1 'https://github.com/tmux-plugins/vim-tmux-focus-events'
+	git clone --depth 1 'https://github.com/tpope/vim-eunuch'
+	git clone --depth 1 'https://github.com/tpope/vim-fugitive'
+	git clone --depth 1 'https://github.com/airblade/vim-gitgutter'
+	git clone --depth 1 'https://github.com/tpope/vim-repeat'
+	git clone --depth 1 'https://github.com/tpope/vim-scriptease'
 fi
 
 #Install ZSH Plugins
@@ -166,6 +165,7 @@ mkdir -p "${HOME}/development"
 
 if [ ! -d "${HOME}/development/dotfiles" ]; then
 	echo " ===> Setting up dotfiles"
+	cp ./zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
 	pushd "${HOME}/development"
 	git clone --recursive https://github.com/otanfener/dotfiles.git
 	pushd "${HOME}/development/dotfiles"
