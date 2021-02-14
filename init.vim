@@ -6,6 +6,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'tomasiser/vim-code-dark'
 Plug 'pangloss/vim-javascript'
+Plug 'ryanoasis/vim-devicons'
 Plug 'szw/vim-maximizer'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kassio/neoterm'
@@ -64,6 +65,9 @@ set nofsync
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 
+"YAML INTENDATION"
+
+autocmd FileType yaml,yml setlocal ts=2 sts=2 sw=2 expandtab
 
 "CUSTOM MAPPINGS"
 
@@ -75,6 +79,22 @@ nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+
+
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+"Go to last active tab"
+au TabLeave * let g:lasttab = tabpagenr()
+nnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
+vnoremap <silent> <c-l> :exe "tabn ".g:lasttab<cr>
 
 "CONFIGURATION"
 
@@ -95,6 +115,7 @@ nnoremap <Leader>F :Neoformat prettier<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 "Coc.vim"
 let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-clangd']
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 "itchyny/lightline.vim"
 let g:lightline = {
       \ 'active': {
@@ -183,11 +204,6 @@ set statusline+=%*
 set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineLeftInfo()}
 set statusline+=\ %*
-
-" go command status (requires vim-go)
-set statusline+=%#goStatuslineColor#
-set statusline+=%{go#statusline#Show()}
-set statusline+=%*
 
 " right section seperator
 set statusline+=%=
