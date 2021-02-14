@@ -14,7 +14,8 @@ sudo apt-get install -qq \
 	apt-transport-https \
 	gnupg-agent \
 	software-properties-common \
-	python3.8
+	python3.8 \
+	python3-pip \
 	curl \
 	git \
 	ripgrep \
@@ -33,7 +34,8 @@ sudo apt-get install -qq \
 	build-essential \
 	-y --no-install-recommends \
 
-
+#Install neovim plugin
+pip3 install neovim
 #Install rga
 RGA_VERSION=v0.9.6
 RGA_FILE=("$HOME"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl)
@@ -72,7 +74,7 @@ sudo usermod -aG docker $USER
 LINUXBREW_FILE="${HOME}/.linuxbrew/Homebrew"
 if [ ! -d "${LINUXBREW_FILE}" ]; then
 	mkdir -p ${HOME}/.linuxbrew/bin 
-	git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+	git clone --depth 1 https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
 	ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
 fi
 # Install Oh-my-zsh
@@ -83,7 +85,7 @@ fi
 #Install Powerlevel10k theme
 POWERLEVEL10K_FILE="${HOME}/.oh-my-zsh/custom/themes/powerlevel10k"
 if [ ! -d "${POWERLEVEL10K_FILE}" ]; then
-	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${POWERLEVEL10K_FILE}
+	git clone --depth 1 https://github.com/romkatv/powerlevel10k.git ${POWERLEVEL10K_FILE}
 fi
 # Install NeoVim
 
@@ -146,18 +148,18 @@ fi
 
 if [ ! -d "${HOME}/.zsh" ]; then
 	echo " ==> Installing zsh pluings"
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-	git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+	git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+	git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 fi
 
 #Install TMUX Pluings
 
 if [ ! -d "${HOME}/.tmux/plugins" ]; then
 	echo " ==> Installing tmux plugins"
-	git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
-	git clone https://github.com/tmux-plugins/tmux-open.git "${HOME}/.tmux/plugins/tmux-open"
-	git clone https://github.com/tmux-plugins/tmux-yank.git "${HOME}/.tmux/plugins/tmux-yank"
-	git clone https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
+	git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+	git clone --depth 1 https://github.com/tmux-plugins/tmux-open.git "${HOME}/.tmux/plugins/tmux-open"
+	git clone --depth 1 https://github.com/tmux-plugins/tmux-yank.git "${HOME}/.tmux/plugins/tmux-yank"
+	git clone --depth 1 https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
 fi
 
 echo "==> Creating temporay directory for dot files"
@@ -165,7 +167,7 @@ mkdir -p "${HOME}/development"
 
 if [ ! -d "${HOME}/development/dotfiles" ]; then
 	echo " ===> Setting up dotfiles"
-	cp ./zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
+	echo 
 	pushd "${HOME}/development"
 	git clone --recursive https://github.com/otanfener/dotfiles.git
 	pushd "${HOME}/development/dotfiles"
@@ -173,5 +175,6 @@ if [ ! -d "${HOME}/development/dotfiles" ]; then
 	ln -sfn $(pwd)/.zshrc "${HOME}/.zshrc"
 	ln -sfn $(pwd)/.tmux.conf "${HOME}/.tmux.conf"
 	ln -sfn $(pwd)/.gitconfig "${HOME}/.gitconfig"
+	cp zsh-interactive-cd.plugin.zsh "${HOME}/.config/"
 fi
 echo "==> Done"
