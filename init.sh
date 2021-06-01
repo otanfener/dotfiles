@@ -2,6 +2,8 @@
 set -x
 set -e 
 
+cd "$(dirname "$0")"
+
 function symlink {
 	ln -sfn $1 $2
 }
@@ -18,7 +20,7 @@ WHITE=`tput setaf 7`
 BOLD=`tput bold`
 RESET=`tput sgr0`
 
-echo -e "==> ${GREEN}Updating and upgrading packages ..."
+echo -e "==> ${GREEN}Updating and upgrading packages ...${RESET}"
 
 
 sudo apt-get -y update 
@@ -140,18 +142,18 @@ for file in home/.[^.]*; do
   target="$HOME/$(basename $file)"
 
   if [[ -h $target && ($(readlink $target) == $path)]]; then
-    echo -e "${GREEN}~/$base is symlinked to your dotfiles."
+    echo -e "${GREEN}~/$base is symlinked to your dotfiles.${RESET}"
   elif [[ -f $target && $(sha256sum $path | awk '{print $2}') == $(sha256sum $target | awk '{print $2}') ]]; then
-    echo -e "${GREEN}~/$base exists and was identical to your dotfile.  Overriding with symlink."
+    echo -e "${GREEN}~/$base exists and was identical to your dotfile.  Overriding with symlink.${RESET}"
     symlink $path $target
   elif [[ -a $target ]]; then
-    read -p "${RED}~/$base exists and differs from your dotfile. Override?  [yn]" -n 1
+    read -p "${RED}~/$base exists and differs from your dotfile. Override?  [yn] ${RESET}" -n 1
 
     if [[ $REPLY =~ [yY]* ]]; then
       symlink $path $target
     fi
   else
-    echo -e "${GREEN}~/$base does not exist. Symlinking to dotfile."
+    echo -e "${GREEN}~/$base does not exist. Symlinking to dotfile.${RESET}"
     symlink $path $target
   fi
 done
@@ -161,7 +163,7 @@ ln -sfn $(pwd)/home/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interacti
 mkdir -p ~/.config/nvim
 ln -sfn ${HOME}/.vimrc ~/.config/nvim/init.vim
 
-echo "==> (1) chsh -s $(which zsh)"
-echo "==> (2) nvm install node"
-echo " curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-echo "==> (3) Run :PlugInstall in Nvim"
+echo "==> ${YELLOW}(1) chsh -s $(which zsh) ${RESET}"
+echo "==> ${YELLOW}(2) nvm install node ${RESET}"
+echo "${YELLOW} curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim ${RESET}"
+echo "==> ${YELLOW} (3) Run :PlugInstall in Nvim ${RESET}"
