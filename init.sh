@@ -87,7 +87,7 @@ sudo apt-get install -qq \
 	 containerd.io \
 	 -y \
 # Docker post install
-echo "===> Adding current user to docker group"
+echo -e "${GREEN}===> Adding current user to docker group${RESET}"
 sudo usermod -aG docker $USER
 
 #Install Homebrew
@@ -119,7 +119,7 @@ fi
 #Install ZSH Plugins
 
 if [ ! -d "${HOME}/.zsh" ]; then
-	echo " ==> Installing zsh pluings"
+	echo -e "${GREEN} ==> Installing zsh pluings ${RESET}"
 	git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 	git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 fi
@@ -127,14 +127,14 @@ fi
 #Install TMUX Pluings
 
 if [ ! -d "${HOME}/.tmux/plugins" ]; then
-	echo " ==> Installing tmux plugins"
+	echo -e "${GREEN} ==> Installing tmux plugins ${RESET}"
 	git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
 	git clone --depth 1 https://github.com/tmux-plugins/tmux-open.git "${HOME}/.tmux/plugins/tmux-open"
 	git clone --depth 1 https://github.com/tmux-plugins/tmux-yank.git "${HOME}/.tmux/plugins/tmux-yank"
 	git clone --depth 1 https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
 fi
 
-echo "==> Symlinking dot files"
+echo -e "${GREEN}==> Symlinking dot files${RESET}"
 
 for file in home/.[^.]*; do
   path="$(pwd)/$file"
@@ -142,7 +142,7 @@ for file in home/.[^.]*; do
   target="$HOME/$(basename $file)"
 
   if [[ -h $target && ($(readlink $target) == $path)]]; then
-    echo -e "${GREEN}~/$base is symlinked to your dotfiles.${RESET}"
+    echo -e "${GREEN}~/$base is symlinked to your dotfiles."
   elif [[ -f $target && $(sha256sum $path | awk '{print $2}') == $(sha256sum $target | awk '{print $2}') ]]; then
     echo -e "${GREEN}~/$base exists and was identical to your dotfile.  Overriding with symlink.${RESET}"
     symlink $path $target
@@ -163,7 +163,7 @@ ln -sfn $(pwd)/home/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interacti
 mkdir -p ~/.config/nvim
 ln -sfn ${HOME}/.vimrc ~/.config/nvim/init.vim
 
-echo "==> ${YELLOW}(1) chsh -s $(which zsh) ${RESET}"
-echo "==> ${YELLOW}(2) nvm install node ${RESET}"
-echo "${YELLOW} curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim ${RESET}"
-echo "==> ${YELLOW} (3) Run :PlugInstall in Nvim ${RESET}"
+echo -e "==> ${YELLOW}(1) chsh -s $(which zsh) ${RESET}"
+echo -e "==> ${YELLOW}(2) nvm install node ${RESET}"
+echo -e "${YELLOW} curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim ${RESET}"
+echo -e "==> ${YELLOW} (3) Run :PlugInstall in Nvim ${RESET}"
