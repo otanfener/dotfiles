@@ -48,7 +48,7 @@ if [ ! -d "${RGA_FILE}" ]; then
 fi
 
 #Install Nvm
-NVM_VERSION=v0.37.2
+NVM_VERSION=v0.38
 NVM_FILE="${HOME}/.nvm"
 
 if [ ! -d "{$NVM_FILE}"	]; then
@@ -118,11 +118,14 @@ fi
 
 echo "==> Symlinking dot files"
 
-ln -sfn $(PWD)/init.vim "${HOME}/.config/nvim/init.vim"
-ln -sfn $(PWD)/.zshrc "${HOME}/.zshrc"
-ln -sfn $(PWD)/.tmux.conf "${HOME}/.tmux.conf"
-ln -sfn $(PWD)/.gitconfig "${HOME}/.gitconfig"
-ln -sfn $(PWD)/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
+ln -sfn $(pwd)/.vimrc "${HOME}/.vimrc"
+ln -sfn $(pwd)/.zshrc "${HOME}/.zshrc"
+ln -sfn $(pwd)/.tmux.conf "${HOME}/.tmux.conf"
+ln -sfn $(pwd)/.gitconfig "${HOME}/.gitconfig"
+ln -sfn $(pwd)/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
+
+mkdir -p ~/.config/nvim
+ln -sfn ${HOME}/.vimrc ~/.config/nvim/init.vim
 
 echo "==> (1) chsh -s $(which zsh)"
 echo "==> (2) nvm install node"
