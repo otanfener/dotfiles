@@ -11,6 +11,7 @@ sudo apt-get -y upgrade
 
 sudo apt-get install -qq \
 	cmake  \
+	fzf \
 	apt-transport-https \
 	gnupg-agent \
 	software-properties-common \
@@ -43,6 +44,7 @@ RGA_FILE=("$HOME"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl)
 if [ ! -d "${RGA_FILE}" ]; then
 	cd "$HOME" && curl -sL https://github.com/phiresky/ripgrep-all/releases/download/"$RGA_VERSION"/ripgrep_all-"$RGA_VERSION"-x86_64-unknown-linux-musl.tar.gz | tar -xz
 	sudo mv ${RGA_FILE}/rga /usr/local/sbin
+	rm -rf ${RGA_FILE}
 fi
 
 #Install Nvm
@@ -96,54 +98,6 @@ if ! [ -x "$(command -v nvim)" ]; then
 	sudo ln -sfn /usr/local/sbin/nvim /usr/bin/vim
 fi
 
-
-#Install NeoVim Plugins
-
-VIM_PLUG_FILE="${HOME}/.local/share/nvim/site/autoload/plug.vim"
-if [ ! -f "${VIM_PLUG_FILE}" ]; then 
-	echo " ==> Installing vim plugins"
-	curl -fLo ${VIM_PLUG_FILE} --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-	mkdir -p "${HOME}/.config/nvim/plugged"
-	pushd "${HOME}/.config/nvim/plugged"
-	git clone --depth 1 'https://github.com/neoclide/coc.nvim'
-	git clone --depth 1 'https://github.com/majutsushi/tagbar'
-	git clone --depth 1 'https://github.com/ludovicchabant/vim-gutentags'
-	git clone --depth 1 'https://github.com/itchyny/lightline.vim'
-	git clone --depth 1 'https://github.com/itchyny/vim-gitbranch'
-	git clone --depth 1 'https://github.com/tomasiser/vim-code-dark'
-	git clone --depth 1 'https://github.com/pangloss/vim-javascript'
-	git clone --depth 1 'https://github.com/ryanoasis/vim-devicons'
-	git clone --depth 1 'https://github.com/szw/vim-maximizer'
-	git clone --depth 1 'https://github.com/christoomey/vim-tmux-navigator'
-	git clone --depth 1 'https://github.com/kassio/neoterm'
-	git clone --depth 1 'https://github.com/tpope/vim-commentary'
-	git clone --depth 1 'https://github.com/sbdchd/neoformat'
-	git clone --depth 1 'https://github.com/AndrewRadev/splitjoin.vim'
-	git clone --depth 1 'https://github.com/ConradIrwin/vim-bracketed-paste'
-	git clone --depth 1 'https://github.com/Raimondi/delimitMate'
-	git clone --depth 1 'https://github.com/SirVer/ultisnips'
-	git clone --depth 1 'https://github.com/arthurxavierx/vim-caser'
-	git clone --depth 1 'https://github.com/cespare/vim-toml'
-	git clone --depth 1 'https://github.com/corylanou/vim-present'
-	git clone --depth 1 'https://github.com/ekalinin/Dockerfile.vim'
-	git clone --depth 1 'https://github.com/elzr/vim-json'
-	git clone --depth 1 'https://github.com/ervandew/supertab'
-	git clone --depth 1 'https://github.com/godlygeek/tabular'
-	git clone --depth 1 'https://github.com/junegunn/fzf'
-	git clone --depth 1 'https://github.com/plasticboy/vim-markdown'
-	git clone --depth 1 'https://github.com/roxma/vim-tmux-clipboard'
-	git clone --depth 1 'https://github.com/scrooloose/nerdtree'
-	git clone --depth 1 'https://github.com/t9md/vim-choosewin'
-	git clone --depth 1 'https://github.com/tmux-plugins/vim-tmux'
-	git clone --depth 1 'https://github.com/tmux-plugins/vim-tmux-focus-events'
-	git clone --depth 1 'https://github.com/tpope/vim-eunuch'
-	git clone --depth 1 'https://github.com/tpope/vim-fugitive'
-	git clone --depth 1 'https://github.com/airblade/vim-gitgutter'
-	git clone --depth 1 'https://github.com/tpope/vim-repeat'
-	git clone --depth 1 'https://github.com/tpope/vim-scriptease'
-fi
-
 #Install ZSH Plugins
 
 if [ ! -d "${HOME}/.zsh" ]; then
@@ -162,19 +116,15 @@ if [ ! -d "${HOME}/.tmux/plugins" ]; then
 	git clone --depth 1 https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
 fi
 
-echo "==> Creating temporay directory for dot files"
-mkdir -p "${HOME}/development"
+echo "==> Symlinking dot files"
 
-if [ ! -d "${HOME}/development/dotfiles" ]; then
-	echo " ===> Setting up dotfiles"
-	echo 
-	pushd "${HOME}/development"
-	git clone --recursive https://github.com/otanfener/dotfiles.git
-	pushd "${HOME}/development/dotfiles"
-	ln -sfn $(pwd)/init.vim "${HOME}/.config/nvim/init.vim"
-	ln -sfn $(pwd)/.zshrc "${HOME}/.zshrc"
-	ln -sfn $(pwd)/.tmux.conf "${HOME}/.tmux.conf"
-	ln -sfn $(pwd)/.gitconfig "${HOME}/.gitconfig"
-	cp zsh-interactive-cd.plugin.zsh "${HOME}/.config/"
-fi
-echo "==> Done"
+ln -sfn $(PWD)/init.vim "${HOME}/.config/nvim/init.vim"
+ln -sfn $(PWD)/.zshrc "${HOME}/.zshrc"
+ln -sfn $(PWD)/.tmux.conf "${HOME}/.tmux.conf"
+ln -sfn $(PWD)/.gitconfig "${HOME}/.gitconfig"
+ln -sfn $(PWD)/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
+
+echo "==> (1) chsh -s $(which zsh)"
+echo "==> (2) nvm install node"
+echo " curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+echo "==> (3) Run :PlugInstall in Nvim"

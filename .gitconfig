@@ -38,3 +38,5 @@
 	quotepath = false
 [cola]
 	spellcheck = false
+[pull]
+	rebase = false
