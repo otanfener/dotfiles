@@ -134,6 +134,13 @@ if [ ! -d "${HOME}/.tmux/plugins" ]; then
 	git clone --depth 1 https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
 fi
 
+#Install Postman
+if ! [ -x "$(command -v postman)" ]; then
+	wget -c https://dl.pstmn.io/download/latest/linux64  -O - | tar -xz
+	sudo mv Postman /opt/
+	sudo ln -sfn /opt/Postman/Postman /usr/bin/postman
+fi
+
 echo -e "${GREEN}==> Symlinking dot files${RESET}"
 
 for file in home/.[^.]*; do
@@ -159,7 +166,6 @@ for file in home/.[^.]*; do
 done
 
 ln -sfn $(pwd)/home/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
-
 mkdir -p ~/.config/nvim
 ln -sfn ${HOME}/.vimrc ~/.config/nvim/init.vim
 

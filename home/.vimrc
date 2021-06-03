@@ -6,6 +6,10 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 Plug 'tomasiser/vim-code-dark'
 Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'szw/vim-maximizer'
 Plug 'christoomey/vim-tmux-navigator'
@@ -38,6 +42,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-scriptease'
+Plug 'wincent/ferret'
 call plug#end()
 
 if (empty($TMUX))
@@ -53,6 +58,9 @@ if (empty($TMUX))
   endif
 endif
 
+"JSX CONFIGURATION"
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 "DEFAULT SETTINGS"
 set number
 set showcmd
@@ -61,6 +69,7 @@ set noswapfile
 set nobackup
 set conceallevel=0
 set nofsync
+au VimEnter *  NERDTree
 
 nnoremap <SPACE> <Nop>
 let mapleader=" "
@@ -115,7 +124,34 @@ nnoremap <Leader>F :Neoformat prettier<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
 "Coc.vim"
 let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-clangd']
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+
+endif
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <leader> do <Plug>(coc-codeaction)
+nnoremap <silent> <leader>ds :<C-u>CocList -I -N --top symbols<CR>
 "itchyny/lightline.vim"
 let g:lightline = {
       \ 'active': {
@@ -128,8 +164,41 @@ let g:lightline = {
       \	'colorscheme':'codedark',
       \ }
 "fzf.vim"
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --glob "!{node_modules/*, .git/*, tags}" --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 noremap <C-g> 	:Rg<Cr>
 noremap <C-f>   :Files<Cr>
+
+function! s:tags_sink(line)
+  let parts = split(a:line, '\t\zs')
+  let excmd = matchstr(parts[2:], '^.*\ze;"\t')
+  execute 'silent e' parts[1][:-2]
+  let [magic, &magic] = [&magic, 0]
+  execute excmd
+  let &magic = magic
+endfunction
+
+function! s:tags()
+  if empty(tagfiles())
+    echohl WarningMsg
+    echom 'Preparing tags'
+    echohl None
+    call system('ctags -R')
+  endif
+
+  call fzf#run({
+  \ 'source':  'cat '.join(map(tagfiles(), 'fnamemodify(v:val, ":S")')).
+  \            '| grep -v -a ^!',
+  \ 'options': '+m -d "\t" --with-nth 1,4.. -n 1 --tiebreak=index',
+  \ 'down':    '40%',
+  \ 'sink':    function('s:tags_sink')})
+endfunction
+
+command! Tags call s:tags()
+noremap <C-t> :Tags<Cr>
+
 inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
 	\ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
 	\ fzf#wrap({'dir': expand('%:p:h')}))
