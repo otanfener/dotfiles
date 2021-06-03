@@ -37,6 +37,7 @@ sudo apt-get install -qq \
 	python3-pip \
 	curl \
 	git \
+	cargo \
 	ripgrep \
 	pandoc \
 	poppler-utils \
@@ -141,6 +142,11 @@ if ! [ -x "$(command -v postman)" ]; then
 	sudo ln -sfn /opt/Postman/Postman /usr/bin/postman
 fi
 
+#Install Alacritty
+if ! [ -x "$(command -v alacritty)" ]; then
+	cargo install alacritty
+fi
+
 echo -e "${GREEN}==> Symlinking dot files${RESET}"
 
 for file in home/.[^.]*; do
@@ -168,6 +174,7 @@ done
 ln -sfn $(pwd)/home/zsh-interactive-cd.plugin.zsh "${HOME}/.config/zsh-interactive-cd.plugin.zsh"
 mkdir -p ~/.config/nvim
 ln -sfn ${HOME}/.vimrc ~/.config/nvim/init.vim
+rm -rf ~/.config/alacritty
 
 echo -e "==> ${YELLOW}(1) chsh -s $(which zsh) ${RESET}"
 echo -e "==> ${YELLOW}(2) nvm install node ${RESET}"
