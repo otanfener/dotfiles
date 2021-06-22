@@ -30,6 +30,7 @@ sudo apt-get -y upgrade
 sudo apt-get install -qq \
 	cmake  \
 	fzf \
+	tldr \
 	apt-transport-https \
 	gnupg-agent \
 	software-properties-common \
