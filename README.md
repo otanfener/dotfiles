@@ -8,3 +8,9 @@ Synchronize personal dotfiles, and install required packages.
    - `brew analytics off`
 4) Install Homebrew packages:
    - `brew bundle --global`
+5) Change default shell to zsh:
+   - `chsh -s $(which zsh)`
+6) Install nvim plugin manager
+   - `curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
+7) Install nvim plugins by opening nvim and running:
+   - `:PlugInstall`
