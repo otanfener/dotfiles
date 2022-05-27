@@ -1,0 +1,26 @@
+# Editors
+.vscode
+.idea
+*.swp
+*~
+
+# Compiled
+*.class
+*.dll
+*.exe
+*.o
+*.so
+dist/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Env files
+.envrc
+scratch/

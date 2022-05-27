@@ -1,0 +1,146 @@
+let mapleader=" "
+
+"Plugins"
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-commentary'
+
+"Plugin mappings"
+let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapJumpParent='h'
+nnoremap <s-w> :NERDTreeToggle<CR>
+nnoremap <c-w> :NERDTreeFocus<CR>
+"Reload Configuration"
+nnoremap \e :e ~/.ideavimrc<CR>
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+
+"Common settings"
+set scrolloff=5
+set incsearch
+set number relativenumber
+set ideajoin
+set idearefactormode=keep
+set showmode
+set showcmd
+
+
+"Common Mappings"
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
+
+
+"Distraction Mode"
+nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
+
+"Navigation"
+nnoremap <c-\> :action SplitVertically<CR>
+nnoremap <c--> :action SplitHorizontally<CR>
+nnoremap <c-=> :action Unsplit<CR>
+nnoremap <c-m> :action MoveEditorToOppositeTabGroup<CR>
+
+sethandler <c-j> a:vim
+sethandler <c-k> a:vim
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+
+nnoremap <TAB> :action PreviousTab<CR>
+nnoremap <s-TAB> :action NextTab<CR>
+
+nnoremap <Leader>q :action CloseContent<CR>
+nnoremap <Leader>qa :action CloseAllEditors<CR>
+
+"Terminal"
+nnoremap <c-t> :action ActivateTerminalToolWindow<CR>
+nnoremap <leader>t :action Terminal.OpenInTerminal<CR>
+
+
+"Source code"
+nnoremap [[ :action MethodUp<CR>
+nnoremap ]] :action MethodDown<CR>
+
+nnoremap zc :action CollapseRegion<CR>
+nnoremap zo :action ExpandRegion<CR>
+nnoremap <leader>zc :action CollapseAllRegions<CR>
+nnoremap <leader>zo :action ExpandAllRegions<CR>
+
+
+
+nnoremap <leader>r :action Refactorings.QuickListPopupAction<CR>
+nnoremap <Leader>=  :action ReformatCode<CR>
+nnoremap <leader>o :action OptimizeImports<CR>
+
+nnoremap <c-r> :action RecentFiles<CR>
+nnoremap <leader>l :action RecentLocations<CR>
+nnoremap <leader>h  :action LocalHistory.ShowHistory<CR>
+
+nnoremap ge :action GotoNextError<CR>
+nnoremap gE :action GotoPreviousError<CR>
+
+
+"Search and Navigation"
+nnoremap <c-g> :action FindInPath<CR>
+nnoremap <c-a> :action GotoAction<CR>
+nnoremap <c-f> :action GotoFile<CR>
+nnoremap gr :action FindUsages<CR>
+
+nnoremap <leader>s :action GotoRelated<CR>
+nnoremap <leader>h :action CallHierarchy<CR>
+nnoremap <leader>b :action ShowNavBar<CR>
+nnoremap <c-s> :action FileStructurePopup<CR>
+nnoremap <c-o> :action GotoSymbol<CR>
+nnoremap <leader>d :action QuickJavaDoc<CR>
+nnoremap gg :action GotoClass<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gp :action GotoSuperMethod<CR>
+nnoremap gt :action GotoTest<CR>
+nnoremap gb :action Back<CR>
+nnoremap gf :action Forward<CR>
+
+"Tool Windows"
+nnoremap <s-p> :action JumpToLastWindow<CR>
+nnoremap <s-x> :action HideAllWindows<CR>
+
+"Action"
+nmap <leader>m <action>(Git.Menu)
+nnoremap <leader>c :action EditorCloneCaretBelow<CR>
+"Bookmark"
+nnoremap mA :action ToggleBookmark0<CR>
+nnoremap mB :action ToggleBookmark1<CR>
+nnoremap mC :action ToggleBookmark2<CR>
+nnoremap mD :action ToggleBookmark3<CR>
+nnoremap mE :action ToggleBookmark4<CR>
+
+nnoremap `A :action GotoBookmark0<CR>
+nnoremap `B :action GotoBookmark1<CR>
+nnoremap `C :action GotoBookmark2<CR>
+nnoremap `D :action GotoBookmark3<CR>
+nnoremap `E :action GotoBookmark4<CR>
+"Multi cursor"
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+nmap <C-x> <Plug>SkipOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+nmap <C-p> <Plug>RemoveOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+
+nmap <S-C-n> <Plug>AllWholeOccurrences
+xmap <S-C-n> <Plug>AllWholeOccurrences
+nmap g<S-C-n> <Plug>AllOccurrences
+xmap g<S-C-n> <Plug>AllOccurrences
