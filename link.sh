@@ -56,17 +56,6 @@ mkdir -p "$(dirname "$karabiner")"
 
 symlink config/karabiner.json $karabiner
 
-# Alacritty
-alacritty=~/.config/alacritty/alacritty.yml
-if [ -e "$alacritty" ]; then rm -- "$alacritty"; fi
-mkdir -p "$(dirname "$alacritty")"
-symlink config/.alacritty.yml $alacritty
-
-# Alacritty color
-alacritty_color=~/.config/alacritty/color.yml
-if [ -e "$alacritty_color" ]; then rm -- "$alacritty_color"; fi
-symlink config/.color.yml $alacritty_color
-
 # Coc settings
 coc=~/.config/nvim/coc-settings.json
 if [ -e "$coc" ]; then rm -- "$coc"; fi

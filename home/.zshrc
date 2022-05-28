@@ -1,5 +1,7 @@
 # ZSH Configuration
 	export ZSH="/Users/$USER/.oh-my-zsh"
+
+	ZSH_THEME="apple"
 	plugins=(git
 		zsh-autosuggestions
 		colored-man-pages
