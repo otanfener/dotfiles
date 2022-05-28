@@ -95,3 +95,4 @@ cask 'anki'
 cask 'karabiner-elements'
 cask '1password'
 cask 'obsidian'
+cask "font-hack-nerd-font"
