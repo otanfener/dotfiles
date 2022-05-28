@@ -90,7 +90,7 @@ else
 	log "WARNING: skipping loading fzf.zsh"
 fi
 
-if type rg &> /dev/null; then
+if command -v rg > /dev/null; then
  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules, .git}"'
  export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
@@ -99,11 +99,6 @@ fi
 if [ -f "$HOMEBREW/etc/profile.d/z.sh" ]; then
     . "$HOMEBREW/etc/profile.d/z.sh"
 fi
-#Autojump
-eval "$(jump shell zsh)"
-#Direnv
-eval "$(direnv hook zsh)"
-
 # load zsh plugins installed via brew
 if [[ -d "$HOMEBREW/share/zsh-syntax-highlighting" ]]; then
 	source "$HOMEBREW/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
@@ -120,6 +115,11 @@ PATH="${HOME}/.cargo/bin:${PATH}"
 # direnv hook
 if command -v direnv > /dev/null; then
 	eval "$(direnv hook zsh)"
+fi
+
+# autojump hook
+if command -v jump > /dev/null; then
+	eval "$(jump shell zsh)"
 fi
 
 if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]

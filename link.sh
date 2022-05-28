@@ -20,38 +20,6 @@ BOLD=$(tput bold)
 RESET=$(tput sgr0)
 
 
-#Install NVM
-NVM_VERSION=v0.39.1
-NVM_FILE="${HOME}/.nvm"
-if [ ! -d "{$NVM_FILE}"	]; then
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh | bash
-fi
-
-# Install Oh-my-zsh
-if [ ! -d "${HOME}/.oh-my-zsh" ]; then
-	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash /dev/stdin --unattended
-fi
-
-
-#Install ZSH Plugins
-
-if [ ! -d "${HOME}/.zsh" ]; then
-	echo -e "${GREEN} ==> Installing zsh plugins ${RESET}"
-	git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
-	git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-fi
-
-#Install TMUX Plugins
-
-if [ ! -d "${HOME}/.tmux/plugins" ]; then
-	echo -e "${GREEN} ==> Installing tmux plugins ${RESET}"
-	git clone --depth 1 https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
-	git clone --depth 1 https://github.com/tmux-plugins/tmux-open.git "${HOME}/.tmux/plugins/tmux-open"
-	git clone --depth 1 https://github.com/tmux-plugins/tmux-yank.git "${HOME}/.tmux/plugins/tmux-yank"
-	git clone --depth 1 https://github.com/tmux-plugins/tmux-prefix-highlight.git "${HOME}/.tmux/plugins/tmux-prefix-highlight"
-fi
-
-
 echo -e "${GREEN}==> Symlink dot files${RESET}"
 
 for file in home/.[^.]*; do
@@ -104,7 +72,3 @@ coc=~/.config/nvim/coc-settings.json
 if [ -e "$coc" ]; then rm -- "$coc"; fi
 symlink config/coc-settings.json $coc
 
-echo -e "==> ${YELLOW}(1) chsh -s $(which zsh) ${RESET}"
-echo -e "==> ${YELLOW}(2) nvm install node ${RESET}"
-echo -e "${YELLOW} curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim ${RESET}"
-echo -e "==> ${YELLOW} (3) Run :PlugInstall in Nvim ${RESET}"
