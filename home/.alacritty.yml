@@ -56,17 +56,17 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Menlo 
+    family: Hack Nerd Font Mono 
     style: Regular
 
   # The bold font face
   bold:
-    family: Menlo 
+    family: Hack Nerd Font Mono 
     style: Bold
 
   # The italic font face
   italic:
-    family: Menlo 
+    family: Hack Nerd Font Mono 
     style: Regular Italic
 
   # Point size of the font
