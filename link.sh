@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -xeou pipefail
 
 cd "$(dirname "$0")" || exit
 
@@ -44,20 +44,23 @@ for file in home/.[^.]*; do
   fi
 done
 
-mkdir -p ~/.config/nvim
-symlink "${HOME}"/.vimrc ~/.config/nvim/init.vim
 
 echo -e "${GREEN}==> Symlink config files${RESET}"
+
+# Nvim
+nvim=~/.config/nvim/init.vim
+if [ -e "$nvim" ]; then rm -- "$nvim"; fi
+mkdir -p "$(dirname "$nvim")"
+symlink home/.vimrc  ~/.config/nvim/init.vim
 
 # Karabiner
 karabiner=~/.config/karabiner/karabiner.json
 if [ -e "$karabiner" ]; then rm -- "$karabiner"; fi
 mkdir -p "$(dirname "$karabiner")"
-
-symlink config/karabiner.json $karabiner
+symlink config/karabiner.json ~/.config/karabiner/karabiner.json 
 
 # Coc settings
 coc=~/.config/nvim/coc-settings.json
 if [ -e "$coc" ]; then rm -- "$coc"; fi
-symlink config/coc-settings.json $coc
+symlink config/coc-settings.json ~/.config/nvim/coc-settings.json 
 
