@@ -31,6 +31,11 @@ noremap <Leader>p "*p
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
 
+"Run Configuration"
+nnoremap ,f :action ChooseRunConfiguration<CR>
+nnoremap ,r :action ContextRun<CR>
+nnoremap ,c :action RunClass<CR>
+nnoremap ,t :action ActivateRunToolWindow<CR>
 
 "Distraction Mode"
 nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
@@ -77,10 +82,8 @@ nnoremap zo :action ExpandRegion<CR>
 nnoremap <leader>zc :action CollapseAllRegions<CR>
 nnoremap <leader>zo :action ExpandAllRegions<CR>
 
-
-
 nnoremap <leader>r :action Refactorings.QuickListPopupAction<CR>
-nnoremap <Leader>=  :action ReformatCode<CR>
+nnoremap <leader>=  :action ReformatCode<CR>
 nnoremap <leader>o :action OptimizeImports<CR>
 
 nnoremap <c-r> :action RecentFiles<CR>
@@ -112,7 +115,6 @@ nnoremap gb :action Back<CR>
 nnoremap gf :action Forward<CR>
 
 "Tool Windows"
-nnoremap <s-p> :action JumpToLastWindow<CR>
 nnoremap <s-x> :action HideAllWindows<CR>
 
 "Action"
