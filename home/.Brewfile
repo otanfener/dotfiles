@@ -24,6 +24,10 @@ brew 'screen'
 brew 'shfmt'
 brew 'jump'
 
+# Util
+brew 'pngquant'
+brew 'zopfli'
+
 # Development & Tools
 cask 'goland'
 cask 'visual-studio-code'
