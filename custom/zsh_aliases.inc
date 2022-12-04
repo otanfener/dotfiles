@@ -7,3 +7,4 @@ alias stat='gstat'
 # Software
 alias chrome='google-chrome'
 alias vim='nvim'
+alias cat='bat'

@@ -47,6 +47,14 @@ done
 
 echo -e "${GREEN}==> Symlink config files${RESET}"
 
+# install zsh-completions
+ZSH_COMPLETIONS=~/.oh-my-zsh/custom/plugins/zsh-completions
+[[ -d "$ZSH_COMPLETIONS" ]] || git clone \
+	https://github.com/zsh-users/zsh-completions "$ZSH_COMPLETIONS"
+
+#iTerm2 shell integration
+curl -LfsS https://iterm2.com/shell_integration/zsh \
+    -o ~/.iterm2_shell_integration.zsh
 # Nvim
 nvim=~/.config/nvim/init.vim
 if [ -e "$nvim" ]; then rm -- "$nvim"; fi

@@ -3,8 +3,8 @@
 
 	ZSH_THEME="apple"
 	plugins=(git
-		zsh-autosuggestions
 		colored-man-pages
+		zsh-completions
 		)
 	source $ZSH/oh-my-zsh.sh
 
@@ -13,6 +13,9 @@
 	export DISABLE_UPDATE_PROMPT=true # accept updates by default
 
 
+#Locale configuration
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 # Load customized aliases and functions
 if [[ -f "$HOME/dotfiles/custom/zsh_functions.inc" ]]; then
 	source "$HOME/dotfiles/custom/zsh_functions.inc"
@@ -128,8 +131,15 @@ if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
 then 
    ZSH_TMUX_AUTOSTART=true
 fi
+# iTerm2 integration
+if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
+  source "${HOME}/.iterm2_shell_integration.zsh"
+else
+  log "Warning: skipping loading iterm2 shell integration"
+fi
 
 export NVM_DIR="$HOME/.nvm"
+export NVM_LAZY_LOAD=true
 
 # nvm completion
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
