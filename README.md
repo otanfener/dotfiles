@@ -27,15 +27,24 @@ Synchronize personal dotfiles, install required packages and configure related M
         ```
 ## Post configuration
 - **fzf** completion:
-   - `$HOMEBREW/opt/fzf/install`
+   - ```shell
+     $HOMEBREW/opt/fzf/install`
+     ```
 - **nvim** plugin manager
-   - `curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`
+   - ```shell 
+        curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+     ```
 - **rectangle**
   - Security -> Accessibility: Give access
   - Launch at login
+- **open-in-code**
+  - Move Open in Code.app to /Applications
+  - Drag it to Finder toolbar while holding command key
 ## Sync dotfiles
 - Run `link.sh` to complete settings sync
 - Change default shell to zsh:
-   - `chsh -s $(which zsh)`
+   - ```shell
+        chsh -s $(which zsh)
+     ```
 - Install nvim plugins by opening nvim and running:
    - `:PlugInstall`
