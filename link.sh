@@ -7,6 +7,9 @@ function symlink {
 	ln -sfn "$1" "$2"
 }
 
+#Suppress login message
+[[ ! -e ~/.hushlogin ]] && touch ~/.hushlogin
+
 BLACK=$(tput setaf 0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
