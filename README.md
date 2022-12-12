@@ -17,7 +17,7 @@ Synchronize personal dotfiles, install required packages and configure related M
 - Download Xcode
 - Install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 - Install Homebrew to `$HOME/.homebrew`:
-   - `git clone https://github.com/brew.git $HOME/.homebrew`
+   - `git clone https://github.com/Homebrew/brew.git $HOME/.homebrew`
    - `brew analytics off`
 - Install Homebrew packages:
    - `brew bundle --global`
