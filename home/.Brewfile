@@ -29,7 +29,7 @@ brew 'pngquant'
 brew 'zopfli'
 
 # Development & Tools
-cash 'iterm2'
+cask 'iterm2'
 cask 'jetbrains-toolbox'
 cask 'visual-studio-code'
 cask 'neovim'
