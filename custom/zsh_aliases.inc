@@ -2,7 +2,7 @@
 alias find='gfind'
 alias xargs='gxargs'
 alias stat='gstat'
-
+alias ls='gls --color=always'
 
 # Software
 alias chrome='google-chrome'

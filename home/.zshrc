@@ -1,7 +1,7 @@
 # ZSH Configuration
 	export ZSH="/Users/$USER/.oh-my-zsh"
 
-	ZSH_THEME="apple"
+	ZSH_THEME="robbyrussell"
 	plugins=(git
 		colored-man-pages
 		zsh-completions
