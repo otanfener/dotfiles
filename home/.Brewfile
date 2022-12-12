@@ -91,7 +91,7 @@ brew 'youtube-dl'
 
 # Desktop
 cask 'maccy'
-cask 'zoomus'
+cask 'zoom'
 cask 'slack'
 cask 'rectangle'
 cask 'monitorcontrol'
