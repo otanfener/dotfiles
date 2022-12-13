@@ -142,8 +142,8 @@ export NVM_DIR="$HOME/.nvm"
 export NVM_LAZY_LOAD=true
 
 # nvm completion
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$HOMEBREW/opt/nvm/nvm.sh" ] && \. "$HOMEBREW/opt/nvm/nvm.sh" # This loads nvm
+[ -s "$HOMEBREW/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 
 export PATH

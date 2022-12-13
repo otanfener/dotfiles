@@ -83,7 +83,7 @@ cask 'google-cloud-sdk'
 brew 'kubectx'
 brew 'kind'
 brew 'kube-ps1'
-brew 'docker'
+cask 'docker'
 
 # Tooling
 brew 'aria2'
