@@ -71,6 +71,7 @@ brew 'wget'
 brew 'editorconfig'
 cask 'postman'
 brew 'evans'
+brew 'nvm'
 
 # Cloud
 brew 'aws-sam-cli'
