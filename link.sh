@@ -54,6 +54,10 @@ echo -e "${GREEN}==> Symlink config files${RESET}"
 ZSH_COMPLETIONS=~/.oh-my-zsh/custom/plugins/zsh-completions
 [[ -d "$ZSH_COMPLETIONS" ]] || git clone \
 	https://github.com/zsh-users/zsh-completions "$ZSH_COMPLETIONS"
+# install tmux plugin manager 
+TMUX_PLUGIN_MANAGER=~/.tmux/plugins/tpm
+[[ -d "$TMUX_PLUGIN_MANAGER" ]] || git clone \
+	https://github.com/tmux_plugins/tpm "$TMUX_PLUGIN_MANAGER"
 
 #iTerm2 shell integration
 curl -LfsS https://iterm2.com/shell_integration/zsh \
