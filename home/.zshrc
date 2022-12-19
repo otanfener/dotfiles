@@ -5,6 +5,7 @@
 	plugins=(git
 		colored-man-pages
 		zsh-completions
+		zsh-nvm
 		)
 	source $ZSH/oh-my-zsh.sh
 
@@ -76,7 +77,7 @@ if [ -f "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.in
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
-
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # kubectl completion (w/ refresh cache every 48-hours)
 if command -v kubectl > /dev/null; then
 	kcomp="$HOME/.kube/.zsh_completion"
