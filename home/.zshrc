@@ -1,18 +1,72 @@
-# ZSH Configuration
-	export ZSH="/Users/$USER/.oh-my-zsh"
+HISTFILE=~/.zsh_history
+HISTSIZE=5000
+SAVEHIST=5000
+setopt append_history share_history histignorealldups autocd extendedglob
+setopt nomatch notify
+unsetopt beep
 
-	ZSH_THEME="robbyrussell"
-	plugins=(git
-		colored-man-pages
-		zsh-completions
-		zsh-nvm
-		)
-	source $ZSH/oh-my-zsh.sh
 
-	export ZSH_HIGHLIGHT_MAXLENGTH=60
-	export ZSH_UPDATE_DAYS=14
-	export DISABLE_UPDATE_PROMPT=true # accept updates by default
+# Vim mode
+bindkey -v
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-search-backward
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
+bindkey -M vicmd "k" history-beginning-search-backward
+bindkey -M vicmd "j" history-beginning-search-forward
+export KEYTIMEOUT=1
 
+zle-keymap-select () {
+	if [ $KEYMAP = vicmd ]; then
+		printf "\033[2 q"
+	else
+		printf "\033[6 q"
+	fi
+}
+zle-line-init () {
+	zle -K viins
+	printf "\033[6 q"
+}
+
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+# Enable colors
+autoload -U colors && colors
+
+zstyle :compinstall filename '~/.zshrc'
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+# Enable git information.
+autoload -Uz vcs_info
+zstyle ':vcs_info:git*' formats "%r/%S (%F{green}%b%f)"
+zstyle ':vcs_info:git*' actionformats "%r/%S (%F{green}%b%f|%F{yellow}%a%f) %m%u%c"
+
+precmd() {
+	vcs_info
+
+	if [[ ${vcs_info_msg_0_} ]]; then
+		PS1="${vcs_info_msg_0_} %B%b "
+	else
+		PS1="%~ %B%b "
+	fi
+
+	RPS1="%(?..%B%F{red}%?%f%b)"
+}
 
 #Locale configuration
 export LC_ALL=en_US.UTF-8
@@ -100,7 +154,10 @@ if command -v rg > /dev/null; then
  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules, .git}"'
  export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
-
+# zsh Tab
+if [[ -d "$HOME/fzf-tab" ]]; then
+	source "$HOME/fzf-tab/fzf-tab.plugin.zsh"
+fi
 # z completion
 if [ -f "$HOMEBREW/etc/profile.d/z.sh" ]; then
     . "$HOMEBREW/etc/profile.d/z.sh"
@@ -110,7 +167,7 @@ if [[ -d "$HOMEBREW/share/zsh-syntax-highlighting" ]]; then
 	source "$HOMEBREW/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 if [[ -d "$HOMEBREW/share/zsh-autosuggestions" ]]; then
-	# source "$HOMEBREW/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+	source "$HOMEBREW/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 # global ~/go/bin
@@ -138,13 +195,5 @@ if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
 else
   log "Warning: skipping loading iterm2 shell integration"
 fi
-
-export NVM_DIR="$HOME/.nvm"
-export NVM_LAZY_LOAD=true
-
-# nvm completion
-[ -s "$HOMEBREW/opt/nvm/nvm.sh" ] && \. "$HOMEBREW/opt/nvm/nvm.sh" # This loads nvm
-[ -s "$HOMEBREW/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 
 export PATH

@@ -89,6 +89,8 @@ let mapleader=" "
 
 autocmd FileType yaml,yml setlocal ts=2 sts=2 sw=2 expandtab
 
+nnoremap <c-d> <c-d>zz
+nnoremap <c-u> <c-u>zz
 "CUSTOM MAPPINGS"
 
 noremap <Leader>y "*y
@@ -332,14 +334,6 @@ function! StatusLinePercent()
   return (100 * line('.') / line('$')) . '%'
 endfunction
 
-function! StatusLineLeftInfo()
- let branch = fugitive#head()
- let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
- if branch !=# ''
-   return printf("%s | %s", branch, filename)
- endif
- return filename
-endfunction
 
 exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
 
@@ -353,7 +347,6 @@ set statusline+=%*
 
 " left information bar (after mode)
 set statusline+=%#myInfoColor#
-set statusline+=\ %{StatusLineLeftInfo()}
 set statusline+=\ %*
 
 " right section seperator

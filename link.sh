@@ -50,10 +50,10 @@ done
 
 echo -e "${GREEN}==> Symlink config files${RESET}"
 
-# install zsh-completions
-ZSH_COMPLETIONS=~/.oh-my-zsh/custom/plugins/zsh-completions
-[[ -d "$ZSH_COMPLETIONS" ]] || git clone \
-	https://github.com/zsh-users/zsh-completions "$ZSH_COMPLETIONS"
+# Install fzf-tab plugin
+FZF_TAB=~/fzf-tab
+[[ -d "$FZF_TAB" ]] || git clone \
+	git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
 # install tmux plugin manager 
 TMUX_PLUGIN_MANAGER=~/.tmux/plugins/tpm
 [[ -d "$TMUX_PLUGIN_MANAGER" ]] || git clone \

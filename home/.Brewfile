@@ -23,6 +23,7 @@ brew 'tree'
 brew 'screen'
 brew 'shfmt'
 brew 'jump'
+brew 'exa'
 
 # Util
 brew 'pngquant'
@@ -82,7 +83,6 @@ cask 'google-cloud-sdk'
 # Container
 brew 'kubectx'
 brew 'kind'
-brew 'kube-ps1'
 cask 'docker'
 
 # Tooling
@@ -91,7 +91,6 @@ brew 'rclone'
 brew 'youtube-dl'
 
 # Desktop
-cask 'maccy'
 cask 'zoom'
 cask 'slack'
 cask 'rectangle'
@@ -112,4 +111,3 @@ cask 'whatsapp'
 cask 'yacreader'
 cask 'skype'
 cask 'todoist'
-cask 'cron'
