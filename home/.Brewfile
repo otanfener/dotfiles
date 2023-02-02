@@ -75,6 +75,7 @@ brew 'wget'
 brew 'editorconfig'
 cask 'postman'
 brew 'evans'
+brew 'asdf'
 cask 'postico'
 
 # Cloud
