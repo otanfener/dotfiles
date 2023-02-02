@@ -1,0 +1,14 @@
+type(scope)!: summary
+# |    |   |     |
+# |    |   |     +--> Summary of the commit in present tense
+# |    |   +--> (Optional) Indicates a breaking change.
+# |    +--> (Optional) Refers to the scope, e.g. http or postgres
+# +--> One of fix|feat|build|chore|ci|docs|style|refactor|perf|test
+
+# (Optional) Description of the commit.
+# Some description of the commit in question.
+
+# (Optional) Trailers
+# Ticket: [CODE-123](url)
+# Co-Authored-By: Name Nameson <name.nameson@example.org>
+# BREAKING-CHANGE: message

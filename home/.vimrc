@@ -85,8 +85,10 @@ au VimEnter *  NERDTree
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 
+autocmd Filetype json
+  \ let g:indentLine_setConceal = 0 |
+  \ let g:vim_json_syntax_conceal = 0
 "YAML INTENDATION"
-
 autocmd FileType yaml,yml setlocal ts=2 sts=2 sw=2 expandtab
 
 nnoremap <c-d> <c-d>zz

@@ -138,7 +138,6 @@ if command -v kubectl > /dev/null; then
 	if [ ! -f "$kcomp" ] ||  [ "$(( $(date +"%s") - $(stat -c "%Y" "$kcomp") ))" -gt "172800" ]; then
 		mkdir -p "$(dirname "$kcomp")"
 		kubectl completion zsh > "$kcomp"
-		log "refreshing kubectl zsh completion to $kcomp"
 	fi
 	source "$kcomp"
 fi

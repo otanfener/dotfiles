@@ -1,0 +1,8 @@
+set -e
+
+if test -f "go.mod"; then
+    go test -v ./...
+    golangci-lint run ./... --new-from-rev=HEAD --timeout 3m --build-tags integration
+fi
+
+set +e

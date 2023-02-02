@@ -18,6 +18,12 @@
 	tool = vscode
 	colorMoved = default
 	renames = true
+[commit]
+	template=~/.gitmessage
+[trailer "co"]
+	key = "Co-Authored-By: "
+	ifexists = addIfDifferent
+	cmd = git log -1 --pretty=\"%an <%ae>\" --author
 [merge]
 	tool = vscode
 [difftool]
@@ -43,6 +49,7 @@
 	editor = nvim
 	pager = delta
 	quotepath = false
+	hooksPath = ~/.githooks
 	excludesFile = /Users/ozantanfener/.gitignore_global
 [cola]
 	spellcheck = false
