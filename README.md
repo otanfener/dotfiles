@@ -57,7 +57,7 @@ Synchronize personal dotfiles, install required packages and configure related M
 - **fzf** completion:
 
   - ```shell
-     $HOMEBREW/opt/fzf/install`
+     $HOMEBREW/opt/fzf/install
      ```
 
 - **iterm**
