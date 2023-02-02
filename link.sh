@@ -52,12 +52,12 @@ echo -e "${GREEN}==> Symlink config files${RESET}"
 
 # Install fzf-tab plugin
 FZF_TAB=~/fzf-tab
-[[ -d "$FZF_TAB" ]] || git clone \
+[[ -d "$FZF_TAB" ]] || \
 	git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
 # install tmux plugin manager 
 TMUX_PLUGIN_MANAGER=~/.tmux/plugins/tpm
 [[ -d "$TMUX_PLUGIN_MANAGER" ]] || git clone \
-	https://github.com/tmux_plugins/tpm "$TMUX_PLUGIN_MANAGER"
+	https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_MANAGER"
 
 #iTerm2 shell integration
 curl -LfsS https://iterm2.com/shell_integration/zsh \
