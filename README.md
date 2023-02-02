@@ -64,6 +64,8 @@ Synchronize personal dotfiles, install required packages and configure related M
   - Go to the profile tab and change fonts
   - Create a new profile
   - Change espace sequence key to work to fzf
+  - Create launch command to attach tmux session
+    - `tmux attach || tmux new`
 
 - **rectangle**
   - Security -> Accessibility: Give access
