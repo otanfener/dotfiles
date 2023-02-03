@@ -7,6 +7,7 @@ tap 'homebrew/core'
 tap 'homebrew/services'
 tap 'aws/tap'
 tap "1password/tap"
+tap "ktr0731/evans"
 
 # System tools
 brew 'gettext'
@@ -76,6 +77,7 @@ brew 'editorconfig'
 cask 'postman'
 brew 'evans'
 brew 'asdf'
+brew 'syncthing'
 cask 'postico'
 
 # Cloud

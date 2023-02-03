@@ -146,7 +146,7 @@ fi
 if type fzf &>/dev/null && [ -f ~/.fzf.zsh ]; then
 	source ~/.fzf.zsh
 else
-	log "WARNING: skipping loading fzf.zsh"
+	echo "WARNING: skipping loading fzf.zsh"
 fi
 
 if command -v rg > /dev/null; then
