@@ -124,10 +124,9 @@ export GIT_SSH=/usr/bin/ssh
 
 # python: replace system python
 PATH="$HOMEBREW/opt/python/libexec/bin:$PATH"
-
 # gcloud completion scripts via brew cask installation
 if [ -f "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then # brew cask installation
-	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python@3.8/libexec/bin/python"
+	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python/libexec/bin/python"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
@@ -192,7 +191,7 @@ fi
 if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
   source "${HOME}/.iterm2_shell_integration.zsh"
 else
-  log "Warning: skipping loading iterm2 shell integration"
+  echo "Warning: skipping loading iterm2 shell integration"
 fi
 
 export PATH

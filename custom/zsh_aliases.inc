@@ -2,8 +2,7 @@
 alias find='gfind'
 alias xargs='gxargs'
 alias stat='gstat'
-alias ls='gls --color=always'
-
+alias ls='exa'
 # Software
 alias chrome='google-chrome'
 alias vim='nvim'
