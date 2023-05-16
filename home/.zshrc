@@ -19,7 +19,6 @@ bindkey -M vicmd '/' history-incremental-search-forward
 bindkey -M vicmd "k" history-beginning-search-backward
 bindkey -M vicmd "j" history-beginning-search-forward
 export KEYTIMEOUT=1
-
 zle-keymap-select () {
 	if [ $KEYMAP = vicmd ]; then
 		printf "\033[2 q"
@@ -50,7 +49,6 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
-
 # Enable git information.
 autoload -Uz vcs_info
 zstyle ':vcs_info:git*' formats "%r/%S (%F{green}%b%f)"
@@ -118,7 +116,6 @@ PATH="$HOMEBREW/opt/gnu-time/libexec/gnubin:$PATH"
 
 # go tools
 PATH="$PATH:$HOME/gotools/bin"
-
 # git: use system ssh for git, otherwise UseKeychain option doesn't work
 export GIT_SSH=/usr/bin/ssh
 
@@ -168,6 +165,7 @@ if [[ -d "$HOMEBREW/share/zsh-autosuggestions" ]]; then
 	source "$HOMEBREW/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
+bindkey '^ ' autosuggest-accept
 # global ~/go/bin
 PATH="${HOME}/go/bin:${PATH}"
 # global ~/.cargo/bin
@@ -181,6 +179,15 @@ fi
 # autojump hook
 if command -v jump > /dev/null; then
 	eval "$(jump shell zsh)"
+fi
+
+# asdf hook
+if command -v asdf > /dev/null; then
+	eval "$(asdf exec direnv hook zsh)"
+fi
+#1password hook
+if command -v op > /dev/null; then
+	eval "$(op completion zsh)"; compdef _op op
 fi
 
 if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]

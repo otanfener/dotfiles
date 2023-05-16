@@ -24,8 +24,8 @@ set idearefactormode=keep
 set showmode
 set showcmd
 
-:nnoremap <c-d> <c-d>zz
-:nnoremap <c-u> <c-u>zz
+nnoremap <c-d> <c-d>zz
+nnoremap <c-u> <c-u>zz
 
 "Common Mappings"
 noremap <Leader>y "*y
@@ -90,7 +90,7 @@ nnoremap <leader>o :action OptimizeImports<CR>
 
 nnoremap <c-r> :action RecentFiles<CR>
 nnoremap <leader>l :action RecentLocations<CR>
-nnoremap <leader>h  :action LocalHistory.ShowHistory<CR>
+nnoremap <leader>g  :action LocalHistory.ShowHistory<CR>
 
 nnoremap ge :action GotoNextError<CR>
 nnoremap gE :action GotoPreviousError<CR>
@@ -105,6 +105,7 @@ nnoremap gr :action FindUsages<CR>
 nnoremap <leader>s :action GotoRelated<CR>
 nnoremap <leader>h :action CallHierarchy<CR>
 nnoremap <leader>b :action ShowNavBar<CR>
+nnoremap <leader>z :action TypeHierarchy<CR>
 nnoremap <c-s> :action FileStructurePopup<CR>
 nnoremap <c-o> :action GotoSymbol<CR>
 nnoremap <leader>d :action QuickJavaDoc<CR>
@@ -121,6 +122,7 @@ nnoremap <s-x> :action HideAllWindows<CR>
 
 "Action"
 nmap <leader>m <action>(Git.Menu)
+vnoremap <leader>b :action Vcs.ShowHistoryForBlock<CR>
 nnoremap <leader>c :action EditorCloneCaretBelow<CR>
 "Bookmark"
 nnoremap mA :action ToggleBookmark0<CR>

@@ -79,7 +79,10 @@ set conceallevel=0
 set nofsync
 set foldlevelstart=20
 set mouse=a
+set encoding=utf-8
 filetype plugin on
+
+let g:airline_powerline_fonts=1
 au VimEnter *  NERDTree
 "AUTO EXIT"
 nnoremap <SPACE> <Nop>
