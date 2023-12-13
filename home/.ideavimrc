@@ -5,6 +5,7 @@ Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
+Plug 'easymotion/vim-easymotion'
 
 "Plugin mappings"
 let g:NERDTreeMapActivateNode='l'
@@ -15,14 +16,19 @@ nnoremap <c-w> :NERDTreeFocus<CR>
 nnoremap \e :e ~/.ideavimrc<CR>
 nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
 
+
 "Common settings"
 set scrolloff=5
+set easymotion
 set incsearch
 set number relativenumber
 set ideajoin
 set idearefactormode=keep
 set showmode
 set showcmd
+
+map <leader>J <Plug>(easymotion-s)
+map <leader>j <Plug>(easymotion-f)
 
 nnoremap <c-d> <c-d>zz
 nnoremap <c-u> <c-u>zz
@@ -41,6 +47,10 @@ nnoremap ,t :action ActivateRunToolWindow<CR>
 
 "Distraction Mode"
 nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
+
+"Window management"
+nnoremap <leader>e :action EditSourceInNewWindow<CR>
+nnoremap <leader>n :action NextWindow<CR>
 
 "Navigation"
 nnoremap <c-\> :action SplitVertically<CR>
@@ -136,17 +146,8 @@ nnoremap `B :action GotoBookmark1<CR>
 nnoremap `C :action GotoBookmark2<CR>
 nnoremap `D :action GotoBookmark3<CR>
 nnoremap `E :action GotoBookmark4<CR>
-"Multi cursor"
-nmap <C-n> <Plug>NextWholeOccurrence
-xmap <C-n> <Plug>NextWholeOccurrence
-nmap g<C-n> <Plug>NextOccurrence
-xmap g<C-n> <Plug>NextOccurrence
-nmap <C-x> <Plug>SkipOccurrence
-xmap <C-x> <Plug>SkipOccurrence
-nmap <C-p> <Plug>RemoveOccurrence
-xmap <C-p> <Plug>RemoveOccurrence
 
-nmap <S-C-n> <Plug>AllWholeOccurrences
-xmap <S-C-n> <Plug>AllWholeOccurrences
-nmap g<S-C-n> <Plug>AllOccurrences
-xmap g<S-C-n> <Plug>AllOccurrences
+"Multi cursor"
+map mc <A-n>
+map mx <A-x>
+map mp <A-p>

@@ -7,6 +7,21 @@ function transfer() {
     echo
 }
 
+function frg() {
+    local result
+    result=$(rg --ignore-case --color=always --line-number --no-heading "$@" | \
+             fzf --ansi \
+                 --color 'hl:-1:underline,hl+:-1:underline:reverse' \
+                 --delimiter ':' \
+                 --preview "bat --color=always {1} --theme='Solarized (light)' --highlight-line {2}" \
+                 --preview-window 'up,60%,border-bottom,+{2}+3/3,~3')
+    if [[ -n $result ]]; then
+        local file=$(echo $result | cut -d: -f1)
+        local line=$(echo $result | cut -d: -f2)
+        ${EDITOR:-vim} "$file" +$line
+    fi
+}
+
 function lint-go() {
  golangci-lint run --out-format tab "$1"
 }

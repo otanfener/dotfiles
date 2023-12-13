@@ -200,5 +200,8 @@ if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
 else
   echo "Warning: skipping loading iterm2 shell integration"
 fi
-
+#Kubernetes editor
+export KUBE_EDITOR=nvim
+#Editor
+export EDITOR=nvim
 export PATH
