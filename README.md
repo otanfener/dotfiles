@@ -57,7 +57,7 @@ Synchronize personal dotfiles, install required packages and configure related M
      $HOMEBREW/opt/fzf/install
      ```
 
-- **iterm**
+- **iTerm**
   - Go to the profile tab and change fonts
   - Create a new profile
   - Change espace sequence key to work to fzf
