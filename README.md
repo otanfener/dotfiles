@@ -4,10 +4,8 @@ Synchronize personal dotfiles, install required packages and configure related M
 
 ## OS Configuration
 
-- Show battery percentage
-- Show in menu bar
-- Configure input sources
-- Disable auto capitalization
+- Show battery percentage -> Show in menu bar
+- Configure input sources -> Disable auto capitalization
 - Configure spelling check for U.S. English
 - Configure Dock to align on right side
 - Configure Finder Favorites
@@ -20,7 +18,6 @@ Synchronize personal dotfiles, install required packages and configure related M
 ## Instructions
 
 - Download Xcode
-- Install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
 - Install Homebrew to `$HOME/.homebrew`:
   - `git clone https://github.com/Homebrew/brew.git $HOME/.homebrew`
 - Change default shell to zsh:
