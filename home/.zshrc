@@ -120,7 +120,7 @@ PATH="$PATH:$HOME/gotools/bin"
 export GIT_SSH=/usr/bin/ssh
 
 # python: replace system python
-PATH="$HOMEBREW/opt/python/libexec/bin:$PATH"
+PATH="$HOMEBREW/opt/python@3.11/libexec/bin:$PATH"
 # gcloud completion scripts via brew cask installation
 if [ -f "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then # brew cask installation
 	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python/libexec/bin/python"
@@ -205,3 +205,6 @@ export KUBE_EDITOR=nvim
 #Editor
 export EDITOR=nvim
 export PATH
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
+. /Users/ozantanfener/.homebrew/opt/asdf/libexec/asdf.sh
