@@ -42,8 +42,6 @@ noremap <Leader>P "+p
 "Run Configuration"
 nnoremap ,f :action ChooseRunConfiguration<CR>
 nnoremap ,r :action ContextRun<CR>
-nnoremap ,c :action RunClass<CR>
-nnoremap ,t :action ActivateRunToolWindow<CR>
 
 "Distraction Mode"
 nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
@@ -132,6 +130,15 @@ nnoremap <s-x> :action HideAllWindows<CR>
 
 "Action"
 nmap <leader>m <action>(Git.Menu)
+nnoremap <leader>gb  :action Git.Branches<CR>
+nnoremap <leader>ga :action Annotate<CR>
+nnoremap <leader>gp :action Vcs.Push<CR>
+nnoremap <leader>gl :action Git.Pull<CR>
+nnoremap <leader>gf :action Git.Fetch<CR>
+nnoremap <leader>gs :action Git.Stash<CR>
+nnoremap <leader>gv :action Github.View.Pull.Request<CR>
+nnoremap <leader>gq :action Vcs.QuickListPopupAction<CR>
+nnoremap <leader>gh :action Vcs.ShowTabbedFileHistory<CR>
 vnoremap <leader>b :action Vcs.ShowHistoryForBlock<CR>
 nnoremap <leader>c :action EditorCloneCaretBelow<CR>
 "Bookmark"
