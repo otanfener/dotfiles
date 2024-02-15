@@ -93,3 +93,5 @@
 	editor = interactive-rebase-tool
 [credential]
 	helper = osxkeychain
+[push]
+	autoSetupRemote = true

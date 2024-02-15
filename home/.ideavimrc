@@ -130,15 +130,15 @@ nnoremap <s-x> :action HideAllWindows<CR>
 
 "Action"
 nmap <leader>m <action>(Git.Menu)
-nnoremap <leader>gb  :action Git.Branches<CR>
-nnoremap <leader>ga :action Annotate<CR>
-nnoremap <leader>gp :action Vcs.Push<CR>
-nnoremap <leader>gl :action Git.Pull<CR>
-nnoremap <leader>gf :action Git.Fetch<CR>
-nnoremap <leader>gs :action Git.Stash<CR>
-nnoremap <leader>gv :action Github.View.Pull.Request<CR>
-nnoremap <leader>gq :action Vcs.QuickListPopupAction<CR>
-nnoremap <leader>gh :action Vcs.ShowTabbedFileHistory<CR>
+nnoremap <leader>vb  :action Git.Branches<CR>
+nnoremap <leader>va :action Annotate<CR>
+nnoremap <leader>vp :action Vcs.Push<CR>
+nnoremap <leader>vl :action Git.Pull<CR>
+nnoremap <leader>vf :action Git.Fetch<CR>
+nnoremap <leader>vs :action Git.Stash<CR>
+nnoremap <leader>vv :action Github.View.Pull.Request<CR>
+nnoremap <leader>vq :action Vcs.QuickListPopupAction<CR>
+nnoremap <leader>vh :action Vcs.ShowTabbedFileHistory<CR>
 vnoremap <leader>b :action Vcs.ShowHistoryForBlock<CR>
 nnoremap <leader>c :action EditorCloneCaretBelow<CR>
 "Bookmark"
