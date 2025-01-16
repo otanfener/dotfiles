@@ -8,6 +8,7 @@ tap 'homebrew/services'
 tap 'aws/tap'
 tap "1password/tap"
 tap "ktr0731/evans"
+tap "hashicorp/tap"
 
 # System tools
 brew 'gettext'
@@ -32,7 +33,7 @@ brew 'pngquant'
 brew 'zopfli'
 
 # Development & Tools
-cask 'iterm2'
+cask 'ghostty'
 cask 'jetbrains-toolbox'
 cask 'visual-studio-code'
 brew 'neovim'
@@ -58,12 +59,9 @@ brew 'hugo'
 brew 'shellcheck'
 brew 'fzf'
 brew 'jq'
-brew 'node'
-brew 'go'
 brew 'rust'
 brew 'pyenv'
 brew 'virtualenv'
-brew 'python3'
 brew 'protobuf'
 brew 'grpc'
 brew 'direnv'
@@ -92,12 +90,13 @@ cask 'google-cloud-sdk'
 brew 'helm'
 brew 'fluxctl'
 brew 'cfn-lint'
+brew 'hashicorp/tap/terraform'
 
 # Container
 brew 'kubectx'
 brew 'kind'
 cask 'docker'
-brew 'kubeseal'
+brew 'krew'
 
 # Tooling
 brew 'aria2'

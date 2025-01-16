@@ -54,14 +54,7 @@ echo -e "${GREEN}==> Symlink config files${RESET}"
 FZF_TAB=~/fzf-tab
 [[ -d "$FZF_TAB" ]] || \
 	git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
-# install tmux plugin manager 
-TMUX_PLUGIN_MANAGER=~/.tmux/plugins/tpm
-[[ -d "$TMUX_PLUGIN_MANAGER" ]] || git clone \
-	https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_MANAGER"
 
-#iTerm2 shell integration
-curl -LfsS https://iterm2.com/shell_integration/zsh \
-    -o ~/.iterm2_shell_integration.zsh
 # Nvim
 nvim=~/.config/nvim/init.vim
 if [ -e "$nvim" ]; then rm -- "$nvim"; fi
@@ -77,5 +70,11 @@ symlink "$(pwd)/config/karabiner.json" ~/.config/karabiner/karabiner.json
 # Coc settings
 coc=~/.config/nvim/coc-settings.json
 if [ -e "$coc" ]; then rm -- "$coc"; fi
-symlink "$(pwd)/config/coc-settings.json" ~/.config/nvim/coc-settings.json 
+symlink "$(pwd)/config/coc-settings.json" ~/.config/nvim/coc-settings.json
+
+# Ghostty
+ghostty=~/.config/ghostty/config
+if [ -e "$ghostty" ]; then rm -- "$ghostty"; fi
+mkdir -p "$(dirname "$ghostty")"
+symlink "$(pwd)/config/ghostty_config" ~/.config/ghostty/config
 

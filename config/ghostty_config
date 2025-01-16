@@ -1,0 +1,13 @@
+font-family = Hack Nerd Font
+font-thicken = true
+font-size = 16
+
+
+macos-titlebar-style = tabs
+theme = kanagawabones
+
+window-width = 120
+window-height = 30
+
+scrollback-limit = 100000000
+copy-on-select = clipboard
