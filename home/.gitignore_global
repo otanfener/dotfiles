@@ -23,4 +23,5 @@ Thumbs.db
 
 # Env files
 .envrc
+.tool-versions
 scratch/

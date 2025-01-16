@@ -194,12 +194,6 @@ if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
 then 
    ZSH_TMUX_AUTOSTART=true
 fi
-# iTerm2 integration
-if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
-  source "${HOME}/.iterm2_shell_integration.zsh"
-else
-  echo "Warning: skipping loading iterm2 shell integration"
-fi
 #Kubernetes editor
 export KUBE_EDITOR=nvim
 #Editor

@@ -42,7 +42,13 @@ Synchronize personal dotfiles, install required packages and configure related M
       curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs 
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
      ```
-
+- Install asdf plugngs and configure `.tool-versions` at global level:
+  - `asdf plugin add direnv`
+  - `asdf plugin add nodejs`
+  - `asdf plugin add python`
+  - `asdf plugin add ruby`
+  - `asdf plugin add java`
+  - `asdf plugin add golang`
 - Install nvim plugins by opening nvim and running:
   - `:PlugInstall`
 - Install necessary providers for nvim
@@ -56,13 +62,6 @@ Synchronize personal dotfiles, install required packages and configure related M
   - ```shell
      $HOMEBREW/opt/fzf/install
      ```
-
-- **iTerm**
-  - Go to the profile tab and change fonts
-  - Create a new profile
-  - Change espace sequence key to work to fzf
-  - Create launch command to attach tmux session
-    - `tmux attach || tmux new`
 
 - **rectangle**
   - Security -> Accessibility: Give access
