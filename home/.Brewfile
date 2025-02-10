@@ -96,6 +96,7 @@ brew 'hashicorp/tap/terraform'
 brew 'kubectx'
 brew 'kind'
 cask 'docker'
+brew 'docker-compose'
 brew 'krew'
 
 # Tooling
