@@ -100,6 +100,7 @@ fi
 	# Add zsh completion scripts installed via Homebrew
 	fpath=("$HOMEBREW/share/zsh-completions" $fpath)
 	fpath=("$HOMEBREW/share/zsh/site-functions" $fpath)
+	fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
 # Reload the zsh-completions
 autoload -U compinit && compinit -i
@@ -194,11 +195,13 @@ if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
 then 
    ZSH_TMUX_AUTOSTART=true
 fi
+# asdf bin
+PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 #Kubernetes editor
 export KUBE_EDITOR=nvim
 #Editor
 export EDITOR=nvim
+# Export path
 export PATH
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 
-. /Users/ozantanfener/.homebrew/opt/asdf/libexec/asdf.sh
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
