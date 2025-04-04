@@ -1,80 +1,129 @@
-#!/bin/bash
-set -xeou pipefail
+#!/usr/bin/env bash
 
-cd "$(dirname "$0")" || exit
+# Abort on error (-e), on undefined variable (-u), and ensure pipefail is active
+set -eou pipefail
 
+# Enable debug mode if DEBUG is set (e.g., DEBUG=1 ./link.sh)
+[[ -n "${DEBUG:-}" ]] && set -x
+
+###############################################################################
+# Dotfiles directory: path to the folder where this script resides
+###############################################################################
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+###############################################################################
+# A helper function to create or update a symlink
+###############################################################################
 function symlink {
-	ln -sfn "$1" "$2"
+  ln -sfn "$1" "$2"
 }
 
-#Suppress login message
+# Suppress login message
 [[ ! -e ~/.hushlogin ]] && touch ~/.hushlogin
 
-BLACK=$(tput setaf 0)
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-YELLOW=$(tput setaf 3)
-BLUE=$(tput setaf 4)
-MAGENTA=$(tput setaf 5)
-CYAN=$(tput setaf 6)
-WHITE=$(tput setaf 7)
+###############################################################################
+# Optional: set up some colors/formatting
+###############################################################################
+BLACK=$(tput setaf 0 || true)
+RED=$(tput setaf 1 || true)
+GREEN=$(tput setaf 2 || true)
+YELLOW=$(tput setaf 3 || true)
+BLUE=$(tput setaf 4 || true)
+MAGENTA=$(tput setaf 5 || true)
+CYAN=$(tput setaf 6 || true)
+WHITE=$(tput setaf 7 || true)
 
-BOLD=$(tput bold)
-RESET=$(tput sgr0)
+BOLD=$(tput bold || true)
+RESET=$(tput sgr0 || true)
 
-
+###############################################################################
+# 1) SYMLINK DOT FILES
+###############################################################################
 echo -e "${GREEN}==> Symlink dot files${RESET}"
 
-for file in home/.[^.]*; do
-  path="$(pwd)/$file"
-  base=$(basename "$file")
-  target="$HOME/$(basename "$file")"
+for file in "$DOTFILES_DIR"/home/.[^.]*; do
+  base="$(basename "$file")"
+  target="$HOME/$base"
 
-  if [[ -h $target && ($(readlink "$target") == "$path")]]; then
-    echo -e "${GREEN}~/$base is symlinked to your dotfiles."
-  elif [[ -f $target && $(sha256sum "$path" | awk '{print $2}') == $(sha256sum "$target" | awk '{print $2}') ]]; then
-    echo -e "${GREEN}~/$base exists and was identical to your dotfile.  Overriding with symlink.${RESET}"
-    symlink "$path" "$target"
-  elif [[ -a $target ]]; then
-    read -p "${RED}~/$base exists and differs from your dotfile. Override?  [yn] ${RESET}" -n 1
+  # 1. If it's already a symlink pointing to the same file, skip
+  if [[ -h "$target" && "$(readlink "$target")" == "$file" ]]; then
+    echo -e "${GREEN}~/$base is already symlinked to your dotfiles.${RESET}"
+    continue
 
-    if [[ $REPLY =~ [yY]* ]]; then
-      symlink "$path" "$target"
+  # 2. If it's an existing regular file and the contents match, replace with symlink
+  elif [[ -f "$target" && \
+          "$(sha256sum "$file" | awk '{print $1}')" == "$(sha256sum "$target" | awk '{print $1}')" ]]; then
+    echo -e "${GREEN}~/$base exists and was identical to your dotfile. Overriding with symlink.${RESET}"
+    symlink "$file" "$target"
+
+  # 3. If it exists but differs, prompt override
+  elif [[ -e "$target" ]]; then
+    read -p "${RED}~/$base exists and differs from your dotfile. Backup & override? [yN] ${RESET}" -n 1
+    echo ""
+    if [[ "$REPLY" =~ [yY] ]]; then
+      # OPTIONAL: back up the old file/directory
+      mv -- "$target" "${target}.bak.$(date +%Y%m%d%H%M%S)"
+      symlink "$file" "$target"
+    else
+      echo -e "${YELLOW}Skipping $base ...${RESET}"
     fi
   else
-    echo -e "${GREEN}~/$base does not exist. Symlink to dotfile.${RESET}"
-    symlink "$path" "$target"
+    # 4. If ~/$base doesn’t exist, just symlink
+    echo -e "${GREEN}~/$base does not exist. Symlinking to dotfile.${RESET}"
+    symlink "$file" "$target"
   fi
 done
 
-
+###############################################################################
+# 2) SYMLINK OTHER CONFIG FILES
+###############################################################################
 echo -e "${GREEN}==> Symlink config files${RESET}"
 
+# -----------------------------------------------------------------------------
 # Install fzf-tab plugin
-FZF_TAB=~/fzf-tab
-[[ -d "$FZF_TAB" ]] || \
-	git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
+# -----------------------------------------------------------------------------
+FZF_TAB="$HOME/fzf-tab"
+if [[ ! -d "$FZF_TAB" ]]; then
+  git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
+fi
 
-# Nvim
-nvim=~/.config/nvim/init.vim
-if [ -e "$nvim" ]; then rm -- "$nvim"; fi
+# -----------------------------------------------------------------------------
+# Neovim config from .vimrc
+# -----------------------------------------------------------------------------
+nvim="$HOME/.config/nvim/init.vim"
+if [[ -e "$nvim" ]]; then
+  rm -- "$nvim"
+fi
 mkdir -p "$(dirname "$nvim")"
-symlink "$(pwd)/home/.vimrc"  ~/.config/nvim/init.vim
+symlink "$DOTFILES_DIR/home/.vimrc" "$nvim"
 
+# -----------------------------------------------------------------------------
 # Karabiner
-karabiner=~/.config/karabiner/karabiner.json
-if [ -e "$karabiner" ]; then rm -- "$karabiner"; fi
+# -----------------------------------------------------------------------------
+karabiner="$HOME/.config/karabiner/karabiner.json"
+if [[ -e "$karabiner" ]]; then
+  rm -- "$karabiner"
+fi
 mkdir -p "$(dirname "$karabiner")"
-symlink "$(pwd)/config/karabiner.json" ~/.config/karabiner/karabiner.json 
+symlink "$DOTFILES_DIR/config/karabiner.json" "$karabiner"
 
+# -----------------------------------------------------------------------------
 # Coc settings
-coc=~/.config/nvim/coc-settings.json
-if [ -e "$coc" ]; then rm -- "$coc"; fi
-symlink "$(pwd)/config/coc-settings.json" ~/.config/nvim/coc-settings.json
+# -----------------------------------------------------------------------------
+coc="$HOME/.config/nvim/coc-settings.json"
+if [[ -e "$coc" ]]; then
+  rm -- "$coc"
+fi
+symlink "$DOTFILES_DIR/config/coc-settings.json" "$coc"
 
+# -----------------------------------------------------------------------------
 # Ghostty
-ghostty=~/.config/ghostty/config
-if [ -e "$ghostty" ]; then rm -- "$ghostty"; fi
+# -----------------------------------------------------------------------------
+ghostty="$HOME/.config/ghostty/config"
+if [[ -e "$ghostty" ]]; then
+  rm -- "$ghostty"
+fi
 mkdir -p "$(dirname "$ghostty")"
-symlink "$(pwd)/config/ghostty_config" ~/.config/ghostty/config
+symlink "$DOTFILES_DIR/config/ghostty_config" "$ghostty"
 
+echo -e "${GREEN}Done!${RESET}"
