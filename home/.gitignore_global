@@ -1,6 +1,6 @@
 # Editors
 .vscode
-.idea
+.idea/
 *.swp
 *~
 
@@ -25,3 +25,4 @@ Thumbs.db
 .envrc
 .tool-versions
 scratch/
+

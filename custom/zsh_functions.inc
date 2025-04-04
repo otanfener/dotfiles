@@ -36,3 +36,8 @@ function fshow() {
                 {}
 FZF-EOF"
 }
+
+function _git_dbg() {
+    echo >&2 "$(tput setaf 1)+ git $@$(tput sgr0)"
+    git "$@"
+}

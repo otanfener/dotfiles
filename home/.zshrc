@@ -204,4 +204,3 @@ export EDITOR=nvim
 # Export path
 export PATH
 
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
