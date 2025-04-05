@@ -26,6 +26,9 @@ set ideajoin
 set idearefactormode=keep
 set showmode
 set showcmd
+set colorcolumn=80
+set autoindent
+set smartindent
 
 map <leader>J <Plug>(easymotion-s)
 map <leader>j <Plug>(easymotion-f)
