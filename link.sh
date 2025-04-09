@@ -82,7 +82,7 @@ echo -e "${GREEN}==> Symlink config files${RESET}"
 # -----------------------------------------------------------------------------
 # Install fzf-tab plugin
 # -----------------------------------------------------------------------------
-FZF_TAB="$HOME/fzf-tab"
+FZF_TAB="$HOME/Documents/code/library/fzf-tab"
 if [[ ! -d "$FZF_TAB" ]]; then
   git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
 fi
@@ -90,12 +90,12 @@ fi
 # -----------------------------------------------------------------------------
 # Neovim config from .vimrc
 # -----------------------------------------------------------------------------
-nvim="$HOME/.config/nvim/init.vim"
-if [[ -e "$nvim" ]]; then
-  rm -- "$nvim"
+NVIM_CONFIG="$HOME/.config/nvim"
+if [[ -d "$NVIM_CONFIG" ]]; then
+  rm -rf "$NVIM_CONFIG"
 fi
-mkdir -p "$(dirname "$nvim")"
-symlink "$DOTFILES_DIR/home/.vimrc" "$nvim"
+git clone https://github.com/LazyVim/starter "$NVIM_CONFIG"
+rm -rf "$NVIM_CONFIG/.git"
 
 # -----------------------------------------------------------------------------
 # Karabiner
@@ -107,14 +107,6 @@ fi
 mkdir -p "$(dirname "$karabiner")"
 symlink "$DOTFILES_DIR/config/karabiner.json" "$karabiner"
 
-# -----------------------------------------------------------------------------
-# Coc settings
-# -----------------------------------------------------------------------------
-coc="$HOME/.config/nvim/coc-settings.json"
-if [[ -e "$coc" ]]; then
-  rm -- "$coc"
-fi
-symlink "$DOTFILES_DIR/config/coc-settings.json" "$coc"
 
 # -----------------------------------------------------------------------------
 # Ghostty

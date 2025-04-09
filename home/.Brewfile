@@ -83,6 +83,7 @@ brew 'syncthing'
 brew 'maven'
 brew 'imagemagick'
 brew 'ghostscript'
+brew 'tectonic'
 cask 'corretto'
 brew 'luajit'
 

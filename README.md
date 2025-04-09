@@ -36,26 +36,15 @@ Synchronize personal dotfiles, install required packages and configure related M
          pip install virtualenvwrapper
         ```
 
-- Install **nvim** plugin manager
-
-  - ```shell
-      curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs 
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-     ```
-- Install asdf plugngs and configure `.tool-versions` at global level:
+- Install asdf plugins and configure `.tool-versions` at global level:
   - `asdf plugin add direnv`
   - `asdf plugin add nodejs`
-  - `asdf plugin add python`
-  - `asdf plugin add ruby`
-  - `asdf plugin add java`
   - `asdf plugin add golang`
-- Install nvim plugins by opening nvim and running:
-  - `:PlugInstall`
-- Install necessary providers for nvim
 
+- **mermaid-js**
   - ```shell
-       pip install --user --upgrade pynvim
-     ```
+      npm install -g @mermaid-js/mermaid-cli
+      ```
 
 - **fzf** completion:
 

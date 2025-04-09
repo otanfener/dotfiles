@@ -152,8 +152,8 @@ if command -v rg > /dev/null; then
  export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
 # zsh Tab
-if [[ -d "$HOME/fzf-tab" ]]; then
-	source "$HOME/fzf-tab/fzf-tab.plugin.zsh"
+if [[ -d "$HOME/Documents/code/library/fzf-tab" ]]; then
+	source "$HOME/Documents/code/library/fzf-tab/fzf-tab.plugin.zsh"
 fi
 # z completion
 if [ -f "$HOMEBREW/etc/profile.d/z.sh" ]; then
@@ -193,7 +193,7 @@ if command -v op > /dev/null; then
 fi
 
 if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
-then 
+then
    ZSH_TMUX_AUTOSTART=true
 fi
 # asdf bin
