@@ -15,7 +15,7 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # A helper function to create or update a symlink
 ###############################################################################
 function symlink {
-  ln -sfn "$1" "$2"
+	ln -sfn "$1" "$2"
 }
 
 # Suppress login message
@@ -42,36 +42,36 @@ RESET=$(tput sgr0 || true)
 echo -e "${GREEN}==> Symlink dot files${RESET}"
 
 for file in "$DOTFILES_DIR"/home/.[^.]*; do
-  base="$(basename "$file")"
-  target="$HOME/$base"
+	base="$(basename "$file")"
+	target="$HOME/$base"
 
-  # 1. If it's already a symlink pointing to the same file, skip
-  if [[ -h "$target" && "$(readlink "$target")" == "$file" ]]; then
-    echo -e "${GREEN}~/$base is already symlinked to your dotfiles.${RESET}"
-    continue
+	# 1. If it's already a symlink pointing to the same file, skip
+	if [[ -L "$target" && "$(readlink "$target")" == "$file" ]]; then
+		echo -e "${GREEN}~/$base is already symlinked to your dotfiles.${RESET}"
+		continue
 
-  # 2. If it's an existing regular file and the contents match, replace with symlink
-  elif [[ -f "$target" && \
-          "$(sha256sum "$file" | awk '{print $1}')" == "$(sha256sum "$target" | awk '{print $1}')" ]]; then
-    echo -e "${GREEN}~/$base exists and was identical to your dotfile. Overriding with symlink.${RESET}"
-    symlink "$file" "$target"
+	# 2. If it's an existing regular file and the contents match, replace with symlink
+	elif [[ -f "$target" &&
+		"$(sha256sum "$file" | awk '{print $1}')" == "$(sha256sum "$target" | awk '{print $1}')" ]]; then
+		echo -e "${GREEN}~/$base exists and was identical to your dotfile. Overriding with symlink.${RESET}"
+		symlink "$file" "$target"
 
-  # 3. If it exists but differs, prompt override
-  elif [[ -e "$target" ]]; then
-    read -p "${RED}~/$base exists and differs from your dotfile. Backup & override? [yN] ${RESET}" -n 1
-    echo ""
-    if [[ "$REPLY" =~ [yY] ]]; then
-      # OPTIONAL: back up the old file/directory
-      mv -- "$target" "${target}.bak.$(date +%Y%m%d%H%M%S)"
-      symlink "$file" "$target"
-    else
-      echo -e "${YELLOW}Skipping $base ...${RESET}"
-    fi
-  else
-    # 4. If ~/$base doesn’t exist, just symlink
-    echo -e "${GREEN}~/$base does not exist. Symlinking to dotfile.${RESET}"
-    symlink "$file" "$target"
-  fi
+	# 3. If it exists but differs, prompt override
+	elif [[ -e "$target" ]]; then
+		read -p "${RED}~/$base exists and differs from your dotfile. Backup & override? [yN] ${RESET}" -n 1
+		echo ""
+		if [[ "$REPLY" =~ [yY] ]]; then
+			# OPTIONAL: back up the old file/directory
+			mv -- "$target" "${target}.bak.$(date +%Y%m%d%H%M%S)"
+			symlink "$file" "$target"
+		else
+			echo -e "${YELLOW}Skipping $base ...${RESET}"
+		fi
+	else
+		# 4. If ~/$base doesn’t exist, just symlink
+		echo -e "${GREEN}~/$base does not exist. Symlinking to dotfile.${RESET}"
+		symlink "$file" "$target"
+	fi
 done
 
 ###############################################################################
@@ -84,36 +84,36 @@ echo -e "${GREEN}==> Symlink config files${RESET}"
 # -----------------------------------------------------------------------------
 FZF_TAB="$HOME/Documents/code/library/fzf-tab"
 if [[ ! -d "$FZF_TAB" ]]; then
-  git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
+	git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB"
 fi
 
 # -----------------------------------------------------------------------------
-# Neovim config from .vimrc
+# Neovim config (LazyVim starter) - only clone if not present
 # -----------------------------------------------------------------------------
 NVIM_CONFIG="$HOME/.config/nvim"
-if [[ -d "$NVIM_CONFIG" ]]; then
-  rm -rf "$NVIM_CONFIG"
+if [[ ! -d "$NVIM_CONFIG" ]]; then
+	echo -e "${GREEN}~/.config/nvim not found. Installing LazyVim starter...${RESET}"
+	git clone https://github.com/LazyVim/starter "$NVIM_CONFIG"
+	rm -rf "$NVIM_CONFIG/.git"
+else
+	echo -e "${YELLOW}~/.config/nvim already exists. Skipping LazyVim install.${RESET}"
 fi
-git clone https://github.com/LazyVim/starter "$NVIM_CONFIG"
-rm -rf "$NVIM_CONFIG/.git"
-
 # -----------------------------------------------------------------------------
 # Karabiner
 # -----------------------------------------------------------------------------
 karabiner="$HOME/.config/karabiner/karabiner.json"
 if [[ -e "$karabiner" ]]; then
-  rm -- "$karabiner"
+	rm -- "$karabiner"
 fi
 mkdir -p "$(dirname "$karabiner")"
 symlink "$DOTFILES_DIR/config/karabiner.json" "$karabiner"
-
 
 # -----------------------------------------------------------------------------
 # Ghostty
 # -----------------------------------------------------------------------------
 ghostty="$HOME/.config/ghostty/config"
 if [[ -e "$ghostty" ]]; then
-  rm -- "$ghostty"
+	rm -- "$ghostty"
 fi
 mkdir -p "$(dirname "$ghostty")"
 symlink "$DOTFILES_DIR/config/ghostty_config" "$ghostty"

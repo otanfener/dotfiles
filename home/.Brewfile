@@ -86,6 +86,7 @@ brew 'ghostscript'
 brew 'tectonic'
 cask 'corretto'
 brew 'luajit'
+brew 'markdownlint-cli2'
 
 # Cloud
 brew 'aws-sam-cli'

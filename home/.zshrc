@@ -70,6 +70,10 @@ precmd() {
 #Locale configuration
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+# Source scripts
+for script in "$DOTFILES_DIR/custom/scripts/"*.sh; do
+  [[ -r "$script" ]] && source "$script"
+done
 # Load customized aliases and functions
 if [[ -f "$DOTFILES_DIR/custom/zsh_functions.inc" ]]; then
 	source "$DOTFILES_DIR/custom/zsh_functions.inc"

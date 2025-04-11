@@ -1,5 +1,6 @@
 # cd
 alias dot='cd $HOME/Documents/code/projects/dotfiles'
+alias note='_note'
 alias sb='cd "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes"'
 # GNU tools
 alias find='gfind'
