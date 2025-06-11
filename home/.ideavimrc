@@ -29,6 +29,8 @@ set showcmd
 set colorcolumn=80
 set autoindent
 set smartindent
+set notimeout
+set which-key
 
 map <leader>J <Plug>(easymotion-s)
 map <leader>j <Plug>(easymotion-f)
