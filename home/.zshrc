@@ -54,6 +54,9 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 autoload -Uz vcs_info
 zstyle ':vcs_info:git*' formats "%r/%S (%F{green}%b%f)"
 zstyle ':vcs_info:git*' actionformats "%r/%S (%F{green}%b%f|%F{yellow}%a%f) %m%u%c"
+# Add caching to completion
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
 
 export DOTFILES_DIR="$HOME/Documents/code/projects/dotfiles"
 precmd() {
@@ -109,8 +112,12 @@ fi
 	fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
 # Reload the zsh-completions
-autoload -U compinit && compinit -i
-
+autoload -U compinit
+if [[ -z ~/.zcompdump || -n ~/.zcompdump(N.mh+24) ]]; then
+  compinit -i # Regenerate the dump file
+else
+  compinit -i -C # Load from the cache
+fi
 # coreutils
 MANPATH="$HOMEBREW/opt/coreutils/libexec/gnuman:$MANPATH"
 PATH="$HOMEBREW/opt/coreutils/libexec/gnubin:$PATH"
