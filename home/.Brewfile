@@ -25,7 +25,7 @@ brew 'tree'
 brew 'screen'
 brew 'shfmt'
 brew 'jump'
-brew 'eza'
+brew 'exa'
 brew 'ast-grep'
 
 # Util

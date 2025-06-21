@@ -14,6 +14,7 @@ Synchronize personal dotfiles, install required packages and configure related M
 - Create screenshot automation to reduce screenshots size [Screenshot Trick](https://about.gitlab.com/blog/2020/01/30/simple-trick-for-smaller-screenshots/)
 - Disable sleep when plugged in the power
 - Disable hotkey for spotlight
+- Disable ctrl + space on keyboard settings
 
 ## Instructions
 
