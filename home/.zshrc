@@ -1,4 +1,3 @@
-zmodload zsh/zprof
 HISTFILE=~/.zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
@@ -216,4 +215,3 @@ export KUBE_EDITOR=nvim
 export EDITOR=nvim
 # Export path
 export PATH
-zprof
