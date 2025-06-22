@@ -9,5 +9,8 @@ theme = kanagawabones
 window-width = 120
 window-height = 30
 
+confirm-close-surface = false
+shell-integration = zsh
+
 scrollback-limit = 100000000
 copy-on-select = clipboard
