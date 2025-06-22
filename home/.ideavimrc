@@ -1,165 +1,508 @@
+" LazyVim key mappings for Jetbrains IDEs.
+
+" LazyVim default settings
+" https://www.lazyvim.org/configuration/general
+
 let mapleader=" "
+let maplocalleader="\\"
 
-"Plugins"
-Plug 'preservim/nerdtree'
-Plug 'tpope/vim-surround'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-commentary'
-Plug 'easymotion/vim-easymotion'
-
-"Plugin mappings"
-let g:NERDTreeMapActivateNode='l'
-let g:NERDTreeMapJumpParent='h'
-nnoremap <s-w> :NERDTreeToggle<CR>
-nnoremap <c-w> :NERDTreeFocus<CR>
-"Reload Configuration"
-nnoremap \e :e ~/.ideavimrc<CR>
-nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
-
-
-"Common settings"
-set scrolloff=5
-set easymotion
-set incsearch
-set number relativenumber
-set ideajoin
-set idearefactormode=keep
-set showmode
-set showcmd
-set colorcolumn=80
-set autoindent
-set smartindent
+" Confirm to save changes before exiting modified buffer
+set formatoptions=jcroqlnt
+" Print line number
+set number
+" Relative line numbers
+set relativenumber
+" Lines of context
+set scrolloff=4
+" Round indent
+set shiftround
+" Columns of context
+set sidescrolloff=8
+" which-key says to set this high, or set notimeout
+set timeoutlen=10000
 set notimeout
+set undolevels=10000
+" Disable line wrap
+set nowrap
+" Enable copy/paste to/from system keyboard
+set clipboard+=unnamedplus
+
+" Neovim settings that differ from Vim
+" https://neovim.io/doc/user/diff.html
+" https://github.com/mikeslattery/nvim-defaults.vim/blob/main/plugin/.vimrc
+
+set backspace=indent,eol,start
+set formatoptions=tcqj
+set listchars=tab:>\ ,trail:-,nbsp:+
+set shortmess=filnxtToOF
+
+" Enable plugin behavior
+
+" https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
+" https://www.lazyvim.org/plugins
+
+" gcc and gc<action> mappings.
+Plug 'tpope/vim-commentary'
+
+" Emulate LazyVim mini.surround mappings
+Plug 'tpope/vim-surround'
+let g:surround_no_mappings = 1
+nmap gsa <Plug>YSurround
+xmap gsa <Plug>VSurround
+nmap gsr <Plug>CSurround
+nmap gsd <Plug>DSurround
+
+" Use s to jump anywhere (similar to flash.nvim in LazyVim)
+set easymotion
+let g:EasyMotion_do_mapping = 0
+nmap s <Plug>(easymotion-s)
+xmap s <Plug>(easymotion-s)
+omap s <Plug>(easymotion-s)
+
+" Enable the whichkey plugin, available on Jetbrains marketplace
 set which-key
+" Extended matching.  A Neovim default plugin.
+set matchit
 
-map <leader>J <Plug>(easymotion-s)
-map <leader>j <Plug>(easymotion-f)
+" Key maps
 
-nnoremap <c-d> <c-d>zz
-nnoremap <c-u> <c-u>zz
+" Variables for custom keymaps based on the current IDE flavor (:echo &ide).
+" https://github.com/JetBrains/ideavim/discussions/375
+let is_ide_rider = &ide == 'JetBrains Rider'
 
-"Common Mappings"
-noremap <Leader>y "*y
-noremap <Leader>p "*p
-noremap <Leader>Y "+y
-noremap <Leader>P "+p
+" https://www.lazyvim.org/configuration/keymaps
 
-"Run Configuration"
-nnoremap ,f :action ChooseRunConfiguration<CR>
-nnoremap ,r :action ContextRun<CR>
+" To track Action-IDs
+" :action VimFindActionIdAction
 
-"Distraction Mode"
-nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
+" General Keymaps
 
-"Window management"
-nnoremap <leader>e :action EditSourceInNewWindow<CR>
-nnoremap <leader>n :action NextWindow<CR>
+" Go to Left Window
+nmap <C-h> <C-w>h
+" Go to Lower Window
+nmap <C-j> <C-w>j
+" Go to Upper Window
+nmap <C-k> <C-w>k
+" Go to Right Window
+nmap <C-l> <C-w>l
+" Increase Window Height
+nmap <C-Up> <Action>(IncrementWindowHeight)
+" Decrease Window Height
+nmap <C-Down> <Action>(DecrementWindowHeight)
+" Decrease Window Width
+nmap <C-Left> <Action>(DecrementWindowWidth)
+" Increase Window Width
+nmap <C-Right> <Action>(IncrementWindowWidth)
+" Move Down
+nmap <A-j> <Action>(MoveLineDown)
+vmap <A-j> <Action>(MoveLineDown)
+imap <A-j> <Esc><Action>(MoveLineDown)i
+" Move Up
+nmap <A-k> <Action>(MoveLineUp)
+vmap <A-k> <Action>(MoveLineUp)
+imap <A-k> <Esc><Action>(MoveLineUp)i
+" Prev Buffer
+nmap <S-h> <Action>(PreviousTab)
+" Next Buffer
+nmap <S-l> <Action>(NextTab)
+" Prev Buffer (alternative)
+nmap [b <Action>(PreviousTab)
+" Next Buffer (alternative)
+nmap ]b <Action>(NextTab)
+" Switch to Other Buffer
+nnoremap <leader>bb <C-^>
+" Switch to Other Buffer (alternative)
+nnoremap <leader>` <C-^>
+" Delete Buffer
+nmap <leader>bd <Action>(CloseContent)
+" Delete Buffer and Window
+nmap <leader>bD <Action>(CloseContent)
+" Delete Other Buffers
+nmap <leader>bo <Action>(CloseAllEditorsButActive)
+" Escape and Clear hlsearch
+nmap <esc> :nohlsearch<CR>
+nmap <leader>ur :nohlsearch<CR>
+" Keywordprg
+nmap <leader>K :help<space><C-r><C-w><CR>
+" Add Comment Below
+nmap gco o<c-o>gcc
+" Add Comment Above
+nmap gcO O<c-o>gcc
+" Lazy
+nmap <leader>l <Action>(WelcomeScreen.Plugins)
+" New File
+nmap <leader>fn <Action>(NewElementSamePlace)
+" Location List
+nmap <leader>xl <Action>(ActivateProblemsViewToolWindow)
+" Quickfix List
+nmap <leader>xq <Action>(ActivateProblemsViewToolWindow)
+" Previous Quickfix
+nmap [q <Action>(GotoPreviousError)
+" Next Quickfix
+nmap ]q <Action>(GotoNextError)
+" Format
+nmap <leader>cf <Action>(Format)
+vmap <leader>cf <Action>(Format)
+" Line Diagnostics
+nmap <leader>cd <Action>(ActivateProblemsViewToolWindow)
+" Next Diagnostic
+nmap ]d <Action>(GotoNextError)
+" Prev Diagnostic
+nmap [d <Action>(GotoPreviousError)
+" Next Error
+nmap ]e <Action>(GotoNextError)
+" Prev Error
+nmap [e <Action>(GotoPreviousError)
+" Next Warning
+nmap ]w <Action>(GotoNextError)
+" Prev Warning
+nmap [w <Action>(GotoPreviousError)
+" Next Git Change
+nmap [h <Action>(VcsShowNextChangeMarker)
+" Toggle Auto Format (Global)
+nmap <leader>ub :echo 'There is no equivalent mapping for Toggle Auto Format.'<cr>
+" Toggle Auto Format (Buffer)
+nmap <leader>uB :echo 'There is no equivalent mapping for Toggle Auto Format.'<cr>
+" Toggle Spelling
+nmap <leader>us :setlocal spell!<CR>
+" Toggle Wrap
+nmap <leader>uw :setlocal wrap!<CR>
+" Toggle Relative Number
+nmap <leader>uL :set relativenumber!<CR>
+" Toggle Diagnostics
+nmap <leader>ud <Action>(ActivateProblemsViewToolWindow)
+" Toggle Line Numbers
+nmap <leader>ul :set number!<CR>
+" Toggle conceallevel
+nmap <leader>uc :echo 'There is no equivalent mapping for Toggle Conceallevel.'<cr>
+" Toggle Treesitter Highlight
+nmap <leader>uT :echo 'There is no equivalent mapping for Toggle Treesitter Highlight.'<cr>
+" Toggle Background
+nmap <leader>ub <Action>(QuickChangeScheme)
+" Toggle Inlay Hints
+nmap <leader>uh <Action>(ToggleInlayHintsGloballyAction)
+" Lazygit (Root Dir)
+nmap <leader>gg <Action>(ActivateCommitToolWindow)
+" Lazygit (cwd)
+nmap <leader>gG <Action>(ActivateCommitToolWindow)
+" Git Blame Line
+nmap <leader>gb <Action>(Annotate)
+" Git Browse
+nmap <leader>gB <Action>(Vcs.Show.Log)
+" Lazygit Current File History
+nmap <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
+" Lazygit Log
+nmap <leader>gl <Action>(Vcs.Show.Log)
+" Lazygit Log (cwd)
+nmap <leader>gL <Action>(Vcs.Show.Log)
+" Quit All
+nmap <leader>qq <Action>(Exit)
+" Inspect Pos
+nmap <leader>ui <Action>(ActivateStructureToolWindow)
+" Inspect Tree
+nmap <leader>uI <Action>(ActivateStructureToolWindow)
+" LazyVim Changelog
+nmap <leader>L <Action>(WhatsNewAction)
+" Terminal (Root Dir)
+nmap <leader>ft <Action>(ActivateTerminalToolWindow)
+" Terminal (cwd)
+nmap <leader>fT <Action>(ActivateTerminalToolWindow)
+" Terminal (Root Dir)
+nmap <C-/> <Action>(ActivateTerminalToolWindow)
+" nmap <C-_> 'There is no equivalent mapping for <c-_>.'<cr>
+" Hide Terminal - terminal mode maps not possible
+" Split Window Below.  :split<cr> doesn't work.
+nmap <leader>- <c-w>s
+" Split Window Right
+nmap <leader><bar> <c-w>v
+" Delete Window
+nmap <leader>wd <Action>(CloseContent)
+" Toggle Maximize
+nmap <leader>wm <Action>(ToggleDistractionFreeMode)
 
-"Navigation"
-nnoremap <c-\> :action SplitVertically<CR>
-nnoremap <c--> :action SplitHorizontally<CR>
-nnoremap <c-=> :action Unsplit<CR>
-nnoremap <c-m> :action MoveEditorToOppositeTabGroup<CR>
+" Tabs are treated as saved layouts
 
-sethandler <c-j> a:vim
-sethandler <c-k> a:vim
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>4 4gt
-noremap <leader>5 5gt
-noremap <leader>6 6gt
-noremap <leader>7 7gt
-noremap <leader>8 8gt
-noremap <leader>9 9gt
+" Last Tab
+nmap <leader><tab>l <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" Close Other Tabs
+nmap <leader><tab>o :<cr>
+" First Tab
+nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" New Tab
+nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(StoreNewLayout)
+" Next Tab
+nmap <leader><tab>] <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" Previous Tab
+nmap <leader><tab>[ <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" Close Tab
+nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
 
-nnoremap <TAB> :action PreviousTab<CR>
-nnoremap <s-TAB> :action NextTab<CR>
+" LSP Keymaps
 
-nnoremap <Leader>q :action CloseContent<CR>
-nnoremap <Leader>qa :action CloseAllEditors<CR>
+" Lsp Info
+nmap <leader>cc :echo 'There is no equivalent mapping for Lsp Info.'<cr>
+" Goto Definition
+nmap gd <Action>(GotoDeclaration)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" References
+nmap gr <Action>(FindUsages)
+" Goto Implementation
+nmap gI <Action>(GotoImplementation)
+" Goto Type Definition
+nmap gy <Action>(GotoTypeDeclaration)
+" Goto Declaration
+nmap gD <Action>(GotoDeclaration)
+" Signature Help
+nmap gK <Action>(ParameterInfo)
+" Signature Help in Insert Mode
+imap <C-k> <C-o><Action>(ParameterInfo)
+" Code Action
+nmap <leader>ca <Action>(RefactoringMenu)
+vmap <leader>ca <Action>(RefactoringMenu)
+" Run Codelens
+nmap <leader>cc :echo 'There is no equivalent mapping for Run Codelens.'<cr>
+" Refresh & Display Codelens
+nmap <leader>cC :echo 'There is no equivalent mapping for Refresh & Display Codelens.'<cr>
+" Rename File
+nmap <leader>cR <Action>(RenameFile)
+if is_ide_rider | nmap <leader>cR <Action>(RiderRenameFile) | endif
+" Rename
+nmap <leader>cr <Action>(RenameElement)
+" Source Action
+nmap <leader>cA <Action>(ShowIntentionActions)
+" Next Reference
+nmap ]] <Action>(GotoNextElementUnderCaretUsage)
+" Prev Reference
+nmap [[ <Action>(GotoPrevElementUnderCaretUsage)
+" Next Reference (alternative)
+nmap <a-n> <Action>(GotoNextElementUnderCaretUsage)
+" Prev Reference (alternative)
+nmap <a-p> <Action>(GotoPrevElementUnderCaretUsage)
 
-"Terminal"
-nnoremap <c-t> :action ActivateTerminalToolWindow<CR>
-nnoremap <leader>t :action Terminal.OpenInTerminal<CR>
+" Bufferline
+
+" Delete buffers to the left
+nmap <leader>bl <Action>(CloseAllToTheLeft)
+" Toggle pin
+nmap <leader>bp <Action>(PinActiveTabToggle)
+" Delete Non-Pinned Buffers
+nmap <leader>bP <Action>(CloseAllUnpinnedEditors)
+" Delete buffers to the right
+nmap <leader>br <Action>(CloseAllToTheRight)
+
+" Neo-tree Keymaps
+
+" Buffer Explorer
+nmap <leader>be <Action>(ActivateProjectToolWindow)
+" Explorer NeoTree (Root Dir)
+nmap <leader>e <Action>(FileStructurePopup)
+" Explorer NeoTree (cwd)
+nmap <leader>E <Action>(SelectInProjectView)
+" Explorer NeoTree (Root Dir) (alternative)
+nmap <leader>fe <Action>(ActivateProjectToolWindow)
+" Explorer NeoTree (cwd) (alternative)
+nmap <leader>fE <Action>(ActivateProjectToolWindow)
+" Git Explorer
+nmap <leader>ge <Action>(ActivateVersionControlToolWindow)
+
+" Notifications (noice, snacks)
+
+nmap <leader>snd <Action>(ClearAllNotifications)
+nmap <leader>un <Action>(ClearAllNotifications)
+
+" Telescope Keymaps
+
+" Find Files (Root Dir)
+nmap <leader><space> <Action>(GotoFile)
+" Switch Buffer
+nmap <leader>, <Action>(Switcher)
+" Grep (Root Dir)
+nmap <leader>/ <Action>(FindInPath)
+" Command History
+nmap <leader>: :history<cr>
+" Buffers
+nmap <leader>fb <Action>(Switcher)
+" Find Config File
+nmap <leader>fc <Action>(GotoFile)
+" Find Files (Root Dir) (alternative)
+nmap <leader>ff <Action>(GotoFile)
+" Find Files (cwd)
+nmap <leader>fF <Action>(GotoFile)
+" Find Files (git-files)
+nmap <leader>fg <Action>(GotoFile)
+" Recent
+nmap <leader>fr <Action>(RecentFiles)
+" Recent (cwd)
+nmap <leader>fR <Action>(RecentFiles)
+" Commits
+nmap <leader>gc <Action>(Vcs.Show.Log)
+" Status
+nmap <leader>gs <Action>(Vcs.Show.Log)
+" Registers
+nmap <leader>s" :registers<cr>
+" Auto Commands
+nmap <leader>sa :echo 'There is no equivalent mapping.'<cr>
+" Buffer
+nmap <leader>sb <Action>(Switcher)
+" Command History (alternative)
+nmap <leader>sc :history<cr>
+" Commands
+nmap <leader>sC <Action>(GotoAction)
+" Document Diagnostics
+nmap <leader>sd <Action>(ActivateProblemsViewToolWindow)
+" Workspace Diagnostics
+nmap <leader>sD <Action>(ActivateProblemsViewToolWindow)
+" Grep (Root Dir) (alternative)
+nmap <leader>sg <Action>(FindInPath)
+" Grep (cwd)
+nmap <leader>sG <Action>(FindInPath)
+" Help Pages
+nmap <leader>sh <Action>(HelpTopics)
+" Search Highlight Groups
+nmap <leader>sH <Action>(HighlightUsagesInFile)
+" Jumplist
+nmap <leader>sj <Action>(RecentLocations)
+" Key Maps
+nmap <leader>sk :map<cr>
+" Location List
+nmap <leader>sl <Action>(ActivateProblemsViewToolWindow)
+" Jump to Mark
+nmap <leader>sm :marks<cr>
+" Man Pages
+nmap <leader>sM <Action>(ShowDocumentation)
+" Options
+nmap <leader>so <Action>(ShowSettings)
+" Quickfix List
+nmap <leader>sq <Action>(ActivateProblemsViewToolWindow)
+" Resume
+nmap <leader>sR :echo 'Not yet implmented.'<cr>
+" Goto Symbol
+nmap <leader>ss <Action>(GotoSymbol)
+" Goto Symbol (Workspace)
+nmap <leader>sS <Action>(GotoSymbol)
+" Word (Root Dir)
+nmap <leader>sw mzviw<Action>(FindInPath)<esc>`z
+" Word (cwd)
+nmap <leader>sW mzviw<Action>(FindInPath)<esc>`z
+" Selection (Root Dir)
+vmap <leader>sw <Action>(FindInPath)
+" Selection (cwd)
+vmap <leader>sW <Action>(FindInPath)
+" Colorscheme with Preview
+nmap <leader>uC <Action>(QuickChangeScheme)
 
 
-"Source code"
-nnoremap [[ :action MethodUp<CR>
-nnoremap ]] :action MethodDown<CR>
+" DAP Keymaps
 
-nnoremap zc :action CollapseRegion<CR>
-nnoremap zo :action ExpandRegion<CR>
-nnoremap <leader>zc :action CollapseAllRegions<CR>
-nnoremap <leader>zo :action ExpandAllRegions<CR>
+" Run with Args
+nmap <leader>da <Action>(ChooseRunConfiguration)
+" Toggle Breakpoint
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+" Breakpoint Condition
+nmap <leader>dB <Action>(AddConditionalBreakpoint)
+" Continue
+nmap <leader>dc <Action>(Resume)
+" Run to Cursor
+nmap <leader>dC <Action>(ForceRunToCursor)
+" Go to Line (No Execute)
+nmap <leader>dg :echo 'Not yet implemented.'<cr>
+" Step Into
+nmap <leader>di <Action>(StepInto)
+" Down
+nmap <leader>dj <Action>(GotoNextError)
+" Up
+nmap <leader>dk <Action>(GotoPreviousError)
+" Run Last
+nmap <leader>dl <Action>(Debug)
+" Step Out
+nmap <leader>do <Action>(StepOut)
+" Step Over
+nmap <leader>dO <Action>(StepOver)
+" Pause
+nmap <leader>dp <Action>(Pause)
+" Toggle REPL
+nmap <leader>dr <Action>(JShell.Console)
+" Session
+nmap <leader>ds :echo 'Not yet implmented.'<cr>
+" Terminate
+nmap <leader>dt <Action>(Stop)
+" Widgets
+nmap <leader>dw :echo 'There is no equivalent mapping for Widgets.'<cr>
 
-nnoremap <leader>r :action Refactorings.QuickListPopupAction<CR>
-nnoremap <leader>=  :action ReformatCode<CR>
-nnoremap <leader>o :action OptimizeImports<CR>
+" Todo-comments Keymaps
 
-nnoremap <c-r> :action RecentFiles<CR>
-nnoremap <leader>l :action RecentLocations<CR>
-nnoremap <leader>g  :action LocalHistory.ShowHistory<CR>
+" Todo
+nmap <leader>st <Action>(ActivateTODOToolWindow)
+" Todo/Fix/Fixme
+nmap <leader>sT <Action>(ActivateTODOToolWindow)
+" Todo (Trouble)
+nmap <leader>xt <Action>(ActivateTODOToolWindow)
+" Todo/Fix/Fixme (Trouble)
+nmap <leader>xT <Action>(ActivateTODOToolWindow)
+" Previous Todo Comment
+nmap [t ?\(TODO\|FIX\|HACK\|WARN\|PERF\|NOTE\|TEST\):<cr>
+" Next Todo Comment
+nmap ]t /\(TODO\|FIX\|HACK\|WARN\|PERF\|NOTE\|TEST\):<cr>
 
-nnoremap ge :action GotoNextError<CR>
-nnoremap gE :action GotoPreviousError<CR>
+" DAP UI Keymaps
 
+" Eval
+nmap <leader>de <Action>(EvaluateExpression)
+vmap <leader>de <Action>(EvaluateExpression)
+" Dap UI
+nmap <leader>du <Action>(ActivateDebugToolWindow)
 
-"Search and Navigation"
-nnoremap <c-g> :action FindInPath<CR>
-nnoremap <c-a> :action GotoAction<CR>
-nnoremap <c-f> :action GotoFile<CR>
-nnoremap gr :action FindUsages<CR>
+" Neotest Keymaps
 
-nnoremap <leader>s :action GotoRelated<CR>
-nnoremap <leader>h :action CallHierarchy<CR>
-nnoremap <leader>b :action ShowNavBar<CR>
-nnoremap <leader>z :action TypeHierarchy<CR>
-nnoremap <c-s> :action FileStructurePopup<CR>
-nnoremap <c-o> :action GotoSymbol<CR>
-nnoremap <leader>d :action QuickJavaDoc<CR>
-nnoremap gg :action GotoClass<CR>
-nnoremap gi :action GotoImplementation<CR>
-nnoremap gd :action GotoDeclaration<CR>
-nnoremap gp :action GotoSuperMethod<CR>
-nnoremap gt :action GotoTest<CR>
-nnoremap gb :action Back<CR>
-nnoremap gf :action Forward<CR>
+" Run Last
+nmap <leader>tl <Action>(Run)
+if is_ide_rider | nmap <leader>tl <Action>(RiderUnitTestRunCurrentSessionAction) | endif
+" Show Output
+nmap <leader>to <Action>(ActivateRunToolWindow)
+if is_ide_rider | nmap <leader>to <Action>(ActivateUnitTestsToolWindow) | endif
+" Toggle Output Panel
+nmap <leader>tO <Action>(ActivateRunToolWindow)
+if is_ide_rider | nmap <leader>tO <Action>(ActivateUnitTestsToolWindow) | endif
+" Run Nearest
+nmap <leader>tr <Action>(RunClass)
+if is_ide_rider | nmap <leader>tr <Action>(RiderUnitTestRunContextAction) | endif
+" Toggle Summary
+nmap <leader>ts :echo 'Not yet implmented.'<cr>
+" Stop
+nmap <leader>tS <Action>(Stop)
+" Run File
+nmap <leader>tt <Action>(RunClass)
+if is_ide_rider | nmap <leader>tt <Action>(RiderUnitTestRunContextAction) | endif
+" Run All Test Files
+nmap <leader>tT :echo 'Not yet implmented.'<cr>
+if is_ide_rider | nmap <leader>tT <Action>(RiderUnitTestRunSolutionAction) | endif
+" Toggle Watch
+nmap <leader>tw :echo 'Not yet implmented.'<cr>
 
-"Tool Windows"
-nnoremap <s-x> :action HideAllWindows<CR>
+" nvim-dap
+" Debug Nearest
+nmap <leader>td <Action>(ChooseDebugConfiguration)
+if is_ide_rider | nmap <leader>td <Action>(RiderUnitTestDebugContextAction) | endif
 
-"Action"
-nmap <leader>m <action>(Git.Menu)
-nnoremap <leader>vb  :action Git.Branches<CR>
-nnoremap <leader>va :action Annotate<CR>
-nnoremap <leader>vp :action Vcs.Push<CR>
-nnoremap <leader>vl :action Git.Pull<CR>
-nnoremap <leader>vf :action Git.Fetch<CR>
-nnoremap <leader>vs :action Git.Stash<CR>
-nnoremap <leader>vv :action Github.View.Pull.Request<CR>
-nnoremap <leader>vq :action Vcs.QuickListPopupAction<CR>
-nnoremap <leader>vh :action Vcs.ShowTabbedFileHistory<CR>
-vnoremap <leader>b :action Vcs.ShowHistoryForBlock<CR>
-nnoremap <leader>c :action EditorCloneCaretBelow<CR>
-"Bookmark"
-nnoremap mA :action ToggleBookmark0<CR>
-nnoremap mB :action ToggleBookmark1<CR>
-nnoremap mC :action ToggleBookmark2<CR>
-nnoremap mD :action ToggleBookmark3<CR>
-nnoremap mE :action ToggleBookmark4<CR>
+" Buffer Keymaps
 
-nnoremap `A :action GotoBookmark0<CR>
-nnoremap `B :action GotoBookmark1<CR>
-nnoremap `C :action GotoBookmark2<CR>
-nnoremap `D :action GotoBookmark3<CR>
-nnoremap `E :action GotoBookmark4<CR>
+" Increment / Decrement Selection
+sethandler <C-Space> n:vim v:vim i:ide
+nmap <C-Space> <Action>(EditorSelectWord)
+vmap <C-Space> <Action>(EditorSelectWord)
+vmap <BS> <Action>(EditorUnSelectWord)
 
-"Multi cursor"
-map mc <A-n>
-map mx <A-x>
-map mp <A-p>
+" Neovim mappings
+" https://neovim.io/doc/user/vim_diff.html#_default-mappings
+
+nnoremap Y y$
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
+" Q isn't exactly the same.
+nnoremap Q @@
+
+" Keep selection active after indenting in visual mode
+vnoremap > >gv
+vnoremap < <gv
+
+" There are several more Neovim mappings that need to be ported.
