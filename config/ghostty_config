@@ -3,6 +3,7 @@ font-thicken = true
 font-size = 16
 
 
+macos-option-as-alt = true
 macos-titlebar-style = tabs
 theme = kanagawabones
 
