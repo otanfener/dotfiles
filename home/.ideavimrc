@@ -1,11 +1,21 @@
-" LazyVim key mappings for Jetbrains IDEs.
-
-" LazyVim default settings
-" https://www.lazyvim.org/configuration/general
-
 let mapleader=" "
 let maplocalleader="\\"
-
+"Plugins"
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+let g:surround_no_mappings = 1
+nmap gsa <Plug>YSurround
+xmap gsa <Plug>VSurround
+nmap gsr <Plug>CSurround
+nmap gsd <Plug>DSurround
+" Set easymotion"
+set easymotion
+let g:EasyMotion_do_mapping = 0
+nmap s <Plug>(easymotion-s)
+xmap s <Plug>(easymotion-s)
+omap s <Plug>(easymotion-s)
 " Confirm to save changes before exiting modified buffer
 set formatoptions=jcroqlnt
 " Print line number
@@ -27,56 +37,35 @@ set nowrap
 " Enable copy/paste to/from system keyboard
 set clipboard+=unnamedplus
 
-" Neovim settings that differ from Vim
-" https://neovim.io/doc/user/diff.html
-" https://github.com/mikeslattery/nvim-defaults.vim/blob/main/plugin/.vimrc
-
 set backspace=indent,eol,start
 set formatoptions=tcqj
 set listchars=tab:>\ ,trail:-,nbsp:+
 set shortmess=filnxtToOF
-
-" Enable plugin behavior
-
-" https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
-" https://www.lazyvim.org/plugins
-
-" gcc and gc<action> mappings.
-Plug 'tpope/vim-commentary'
-
-" Emulate LazyVim mini.surround mappings
-Plug 'tpope/vim-surround'
-let g:surround_no_mappings = 1
-nmap gsa <Plug>YSurround
-xmap gsa <Plug>VSurround
-nmap gsr <Plug>CSurround
-nmap gsd <Plug>DSurround
-
-" Use s to jump anywhere (similar to flash.nvim in LazyVim)
-set easymotion
-let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-s)
-xmap s <Plug>(easymotion-s)
-omap s <Plug>(easymotion-s)
-
-" Enable the whichkey plugin, available on Jetbrains marketplace
 set which-key
-" Extended matching.  A Neovim default plugin.
 set matchit
+set incsearch
+set showmode
+set showcmd
+set colorcolumn=80
+set idearefactormode=keep
+set autoindent
+set smartindent
 
-" Key maps
-
+"Reload configuration"
+nnoremap \e :e ~/.ideavimrc<CR>
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+"Distraction Mode"
+nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
+"Window Management"
+nnoremap <s-x> :action HideAllWindows<CR>
+nnoremap <leader>n :action EditSourceInNewWindow<CR>
+"Clone Caret"
+nnoremap <leader>c :action EditorCloneCaretBelow<CR>
 " Variables for custom keymaps based on the current IDE flavor (:echo &ide).
 " https://github.com/JetBrains/ideavim/discussions/375
 let is_ide_rider = &ide == 'JetBrains Rider'
 
-" https://www.lazyvim.org/configuration/keymaps
-
-" To track Action-IDs
-" :action VimFindActionIdAction
-
 " General Keymaps
-
 " Go to Left Window
 nmap <C-h> <C-w>h
 " Go to Lower Window
@@ -159,10 +148,6 @@ nmap ]w <Action>(GotoNextError)
 nmap [w <Action>(GotoPreviousError)
 " Next Git Change
 nmap [h <Action>(VcsShowNextChangeMarker)
-" Toggle Auto Format (Global)
-nmap <leader>ub :echo 'There is no equivalent mapping for Toggle Auto Format.'<cr>
-" Toggle Auto Format (Buffer)
-nmap <leader>uB :echo 'There is no equivalent mapping for Toggle Auto Format.'<cr>
 " Toggle Spelling
 nmap <leader>us :setlocal spell!<CR>
 " Toggle Wrap
@@ -173,10 +158,6 @@ nmap <leader>uL :set relativenumber!<CR>
 nmap <leader>ud <Action>(ActivateProblemsViewToolWindow)
 " Toggle Line Numbers
 nmap <leader>ul :set number!<CR>
-" Toggle conceallevel
-nmap <leader>uc :echo 'There is no equivalent mapping for Toggle Conceallevel.'<cr>
-" Toggle Treesitter Highlight
-nmap <leader>uT :echo 'There is no equivalent mapping for Toggle Treesitter Highlight.'<cr>
 " Toggle Background
 nmap <leader>ub <Action>(QuickChangeScheme)
 " Toggle Inlay Hints
@@ -213,8 +194,12 @@ nmap <C-/> <Action>(ActivateTerminalToolWindow)
 " Hide Terminal - terminal mode maps not possible
 " Split Window Below.  :split<cr> doesn't work.
 nmap <leader>- <c-w>s
-" Split Window Right
+" Split Window Right"
 nmap <leader><bar> <c-w>v
+"Open in Split Window"
+nnoremap <c-v> :action OpenInSplitWindow<CR>
+"Move Editor to Opposite Tab Group"
+nnoremap <leader>ms :action MoveEditorToOppositeTabGroup<CR>
 " Delete Window
 nmap <leader>wd <Action>(CloseContent)
 " Toggle Maximize
@@ -239,8 +224,6 @@ nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
 
 " LSP Keymaps
 
-" Lsp Info
-nmap <leader>cc :echo 'There is no equivalent mapping for Lsp Info.'<cr>
 " Goto Definition
 nmap gd <Action>(GotoDeclaration)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -254,15 +237,13 @@ nmap gy <Action>(GotoTypeDeclaration)
 nmap gD <Action>(GotoDeclaration)
 " Signature Help
 nmap gK <Action>(ParameterInfo)
-" Signature Help in Insert Mode
+" Go to Super Method
+nnoremap gP :action GotoSuperMethod<CR>
+
 imap <C-k> <C-o><Action>(ParameterInfo)
 " Code Action
 nmap <leader>ca <Action>(RefactoringMenu)
 vmap <leader>ca <Action>(RefactoringMenu)
-" Run Codelens
-nmap <leader>cc :echo 'There is no equivalent mapping for Run Codelens.'<cr>
-" Refresh & Display Codelens
-nmap <leader>cC :echo 'There is no equivalent mapping for Refresh & Display Codelens.'<cr>
 " Rename File
 nmap <leader>cR <Action>(RenameFile)
 if is_ide_rider | nmap <leader>cR <Action>(RiderRenameFile) | endif
