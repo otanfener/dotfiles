@@ -98,6 +98,24 @@ if [[ ! -d "$NVIM_CONFIG" ]]; then
 else
 	echo -e "${YELLOW}~/.config/nvim already exists. Skipping LazyVim install.${RESET}"
 fi
+
+# LazyVim plugins
+NVIM_CUSTOM_PLUGINS_SRC="$DOTFILES_DIR/config/nvim/lua/plugins"
+NVIM_CUSTOM_PLUGINS_DST="$HOME/.config/nvim/lua/plugins"
+
+echo -e "${GREEN}==> Symlinking custom LazyVim plugins...${RESET}"
+
+# Remove the default plugins directory that comes with the LazyVim starter
+# This prevents conflicts with your custom setup.
+if [[ -d "$NVIM_CUSTOM_PLUGINS_DST" ]]; then
+	rm -rf "$NVIM_CUSTOM_PLUGINS_DST"
+	echo -e "${YELLOW}Removed default LazyVim plugins directory.${RESET}"
+fi
+
+# Create the symlink
+symlink "$NVIM_CUSTOM_PLUGINS_SRC" "$NVIM_CUSTOM_PLUGINS_DST"
+echo -e "${GREEN}Custom LazyVim plugins symlinked successfully.${RESET}"
+
 # -----------------------------------------------------------------------------
 # Karabiner
 # -----------------------------------------------------------------------------
