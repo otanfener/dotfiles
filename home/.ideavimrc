@@ -54,8 +54,6 @@ set smartindent
 "Reload configuration"
 nnoremap \e :e ~/.ideavimrc<CR>
 nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
-"Distraction Mode"
-nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
 "Window Management"
 nnoremap <s-x> :action HideAllWindows<CR>
 nnoremap <leader>n :action EditSourceInNewWindow<CR>
