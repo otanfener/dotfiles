@@ -484,4 +484,5 @@ nnoremap Q @@
 vnoremap > >gv
 vnoremap < <gv
 
-" There are several more Neovim mappings that need to be ported.
+"Copilot mapping
+nnoremap <leader>aa :action copilot.chat.show<CR>
