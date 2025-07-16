@@ -57,7 +57,7 @@ zstyle ':vcs_info:git*' actionformats "%r/%S (%F{green}%b%f|%F{yellow}%a%f) %m%u
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
 
-export DOTFILES_DIR="$HOME/Documents/code/projects/dotfiles"
+export DOTFILES_DIR=$(cd -- "$(dirname -- "$0")" && cd ../ && pwd)
 precmd() {
 	vcs_info
 
@@ -74,18 +74,18 @@ precmd() {
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 # Source scripts
-for script in "$DOTFILES_DIR/custom/scripts/"*.sh; do
+for script in "$DOTFILES_DIR/scripts/"*.sh; do
   [[ -r "$script" ]] && source "$script"
 done
 # Load customized aliases and functions
-if [[ -f "$DOTFILES_DIR/custom/zsh_functions.inc" ]]; then
-	source "$DOTFILES_DIR/custom/zsh_functions.inc"
+if [[ -f "$DOTFILES_DIR/zsh/zsh_functions.inc" ]]; then
+	source "$DOTFILES_DIR/zsh/zsh_functions.inc"
 else
 	echo >&2 "WARNING: can't load shell functions"
 fi
 
-if [[ -f "$DOTFILES_DIR/custom/zsh_aliases.inc" ]]; then
-	source "$DOTFILES_DIR/custom/zsh_aliases.inc"
+if [[ -f "$DOTFILES_DIR/zsh/zsh_aliases.inc" ]]; then
+	source "$DOTFILES_DIR/zsh/zsh_aliases.inc"
 else
 	echo >&2 "WARNING: can't load shell aliases"
 fi

@@ -27,6 +27,7 @@ brew 'shfmt'
 brew 'jump'
 brew 'exa'
 brew 'ast-grep'
+brew 'stow'
 
 # Util
 brew 'pngquant'
