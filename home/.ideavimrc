@@ -348,7 +348,7 @@ nmap <leader>sl <Action>(ActivateProblemsViewToolWindow)
 " Jump to Mark
 nmap <leader>sm :marks<cr>
 " Man Pages
-nmap <leader>sM <Action>(ShowDocumentation)
+nmap <leader>sM <Action>(QuickJavaDoc)
 " Options
 nmap <leader>so <Action>(ShowSettings)
 " Quickfix List

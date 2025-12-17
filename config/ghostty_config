@@ -1,11 +1,11 @@
 font-family = Hack Nerd Font
 font-thicken = true
-font-size = 18
+font-size = 20
 
 
 macos-option-as-alt = true
 macos-titlebar-style = tabs
-theme = kanagawabones
+theme = catppuccin-mocha.conf
 
 window-width = 120
 window-height = 30

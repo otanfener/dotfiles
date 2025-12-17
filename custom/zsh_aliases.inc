@@ -30,3 +30,5 @@ alias prw='gh pr view --web'
 alias prl='gh pr list'
 alias prco='gh pr checkout'
 alias ghb='gh browse'
+#Kubernetes
+alias k='kubectl'

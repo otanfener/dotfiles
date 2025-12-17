@@ -108,7 +108,6 @@ fi
 	# Add zsh completion scripts installed via Homebrew
 	fpath=("$HOMEBREW/share/zsh-completions" $fpath)
 	fpath=("$HOMEBREW/share/zsh/site-functions" $fpath)
-	fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
 # Reload the zsh-completions
 autoload -U compinit
@@ -136,7 +135,7 @@ export GIT_SSH=/usr/bin/ssh
 PATH="$HOMEBREW/opt/python@3.11/libexec/bin:$PATH"
 # gcloud completion scripts via brew cask installation
 if [ -f "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then # brew cask installation
-	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python/libexec/bin/python"
+	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python@3.11/libexec/bin/python"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
@@ -195,9 +194,9 @@ if command -v jump > /dev/null; then
 fi
 
 # asdf hook
-if command -v asdf > /dev/null; then
-	eval "$(asdf exec direnv hook zsh)"
-fi
+# if command -v asdf > /dev/null; then
+# 	eval "$(asdf exec direnv hook zsh)"
+# fi
 #1password hook
 if command -v op > /dev/null; then
 	eval "$(op completion zsh)"; compdef _op op
@@ -208,10 +207,25 @@ then
    ZSH_TMUX_AUTOSTART=true
 fi
 # asdf bin
-PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 #Kubernetes editor
 export KUBE_EDITOR=nvim
 #Editor
 export EDITOR=nvim
 # Export path
 export PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/completion.zsh.inc'; fi
+
+# fnm
+FNM_PATH="/Users/ozantanfener/.homebrew/opt/fnm/bin"
+if [ -d "$FNM_PATH" ]; then
+  eval "$(fnm env --use-on-cd --shell zsh)"
+fi
+
+
+. "$HOME/.local/bin/env"
