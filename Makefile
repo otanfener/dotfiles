@@ -5,7 +5,7 @@ SHELL := /bin/bash
 
 # --- Variables ---
 # List of all packages to stow. Add or remove package names here.
-PACKAGES := brew direnv editor ghostty git ideavim karabiner nvim ripgrep scripts tmux vim zsh
+PACKAGES := brew direnv editor ghostty git ideavim karabiner notes nvim ripgrep scripts tmux vim zsh
 
 # --- Phony targets (targets that don't represent files) ---
 .PHONY: all install stow unstow clean help
