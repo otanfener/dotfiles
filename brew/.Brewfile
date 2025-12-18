@@ -1,10 +1,4 @@
 # vim: syntax=ruby filetype=ruby
-tap 'homebrew/bundle'
-tap 'homebrew/cask'
-tap 'homebrew/cask-versions'
-tap 'homebrew/cask-fonts'
-tap 'homebrew/core'
-tap 'homebrew/services'
 
 # System tools
 brew 'gettext'
@@ -22,7 +16,7 @@ brew 'tree'
 brew 'screen'
 brew 'shfmt'
 brew 'jump'
-brew 'exa'
+brew 'eza'
 brew 'ast-grep'
 brew 'stow'
 
@@ -67,8 +61,8 @@ brew 'tmux'
 brew 'gh'
 brew 'wget'
 brew 'editorconfig'
-brew 'imagemagick'
 brew 'ghostscript'
+brew 'imagemagick'
 brew 'tectonic'
 brew 'luajit'
 brew 'markdownlint-cli2'
@@ -78,13 +72,12 @@ brew 'go'
 brew 'fnm'
 
 # Container
-cask 'docker'
+cask 'docker-desktop'
 brew 'docker-compose'
 
 # Tooling
 brew 'aria2'
 brew 'rclone'
-brew 'youtube-dl'
 
 # Desktop
 cask 'rectangle'
@@ -101,3 +94,4 @@ cask 'telegram'
 cask 'shottr'
 cask 'google-drive'
 cask 'signal'
+cask 'maccy'

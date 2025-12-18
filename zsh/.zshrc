@@ -57,7 +57,7 @@ zstyle ':vcs_info:git*' actionformats "%r/%S (%F{green}%b%f|%F{yellow}%a%f) %m%u
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
 
-export DOTFILES_DIR=$(cd -- "$(dirname -- "$0")" && cd ../ && pwd)
+export DOTFILES_DIR="$HOME/dotfiles"
 precmd() {
 	vcs_info
 
@@ -74,7 +74,7 @@ precmd() {
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 # Source scripts
-for script in "$DOTFILES_DIR/scripts/"*.sh; do
+for script in "$DOTFILES_DIR/scripts/bin/"*.sh; do
   [[ -r "$script" ]] && source "$script"
 done
 # Load customized aliases and functions
@@ -182,6 +182,8 @@ bindkey '^ ' autosuggest-accept
 PATH="${HOME}/go/bin:${PATH}"
 # global ~/.cargo/bin
 PATH="${HOME}/.cargo/bin:${PATH}"
+# global ~/.local/bin
+PATH="${HOME}/.local/bin:${PATH}"
 
 # direnv hook
 if command -v direnv > /dev/null; then
@@ -228,4 +230,6 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 
-. "$HOME/.local/bin/env"
+if [ -f "$HOME/.local/bin/env" ]; then
+  . "$HOME/.local/bin/env"
+fi

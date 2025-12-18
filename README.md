@@ -31,7 +31,7 @@ Synchronize personal dotfiles, install required packages and configure related M
 
 3. Change your default shell (optional but recommended):
    ```bash
-   chsh -s $(which zsh)
+   make setup-shell
    ```
 
 4. Restart your terminal or run:
@@ -239,6 +239,7 @@ Key environment variables set by the dotfiles:
 - `make bootstrap` - Install Homebrew to `$HOME/.homebrew` if not present
 - `make install` - Install all Homebrew packages, fzf, and LazyVim
 - `make stow` - Create symlinks for all dotfiles packages
+- `make setup-shell` - Change default shell to zsh (requires password)
 - `make unstow` - Remove all symlinks
 - `make clean` - Alias for unstow
 - `make help` - Display help message with all targets

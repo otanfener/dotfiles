@@ -12,11 +12,11 @@ BREW_CMD := $(HOMEBREW_DIR)/bin/brew
 PACKAGES := brew direnv editor ghostty git ideavim karabiner notes nvim ripgrep scripts tmux vim zsh
 
 # --- Phony targets (targets that don't represent files) ---
-.PHONY: all bootstrap install stow unstow clean help
+.PHONY: all bootstrap install stow configure-macos setup-shell unstow clean help
 
 # --- Main targets ---
 
-all: install stow ## Run the full setup: bootstrap Homebrew, install dependencies, and stow dotfiles
+all: bootstrap install stow configure-macos ## Run the full setup: bootstrap Homebrew, install dependencies, stow dotfiles, and configure macOS
 
 bootstrap: ## Initialize Homebrew if not present
 	@echo "--> Checking for Homebrew..."
@@ -28,39 +28,78 @@ bootstrap: ## Initialize Homebrew if not present
 		echo "    ✓ Homebrew already available"; \
 	fi
 
-install: bootstrap ## Install all dependencies (Homebrew, fzf, LazyVim)
+install: ## Install Homebrew packages
 	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
 	echo "--> Installing Homebrew packages..."; \
 	$(BREW_CMD) bundle --file=brew/.Brewfile
 
-	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
-	echo "--> Installing fzf keybindings and completions..."; \
-	if [ -f "$$($(BREW_CMD) --prefix)/opt/fzf/install" ]; then \
-		$$($(BREW_CMD) --prefix)/opt/fzf/install --all; \
-	else \
-		echo "fzf not found. Please ensure it is in your Brewfile."; \
-	fi
-
-	@echo "--> Setting up Neovim configuration..."
-	@NVIM_CONFIG="$(HOME)/.config/nvim"; \
-	if [ ! -d "$$NVIM_CONFIG" ]; then \
-		echo "    Cloning LazyVim starter..."; \
-		git clone https://github.com/LazyVim/starter "$$NVIM_CONFIG"; \
-		rm -rf "$$NVIM_CONFIG/.git"; \
-	else \
-		echo "    ~/.config/nvim already exists. Skipping clone."; \
-	fi
-
 stow: ## Stow all dotfiles using GNU Stow
-	@echo "--> Stowing dotfiles..."
-	@for pkg in $(PACKAGES); do \
+	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
+	echo "--> Stowing dotfiles..."; \
+	for pkg in $(PACKAGES); do \
 		stow -R --target=$(HOME) $$pkg; \
 		echo "    Stowed $$pkg"; \
 	done
 
+configure-macos: ## Configure macOS system defaults
+	@echo "--> Configuring macOS defaults..."
+	@defaults write NSGlobalDomain AppleShowScrollBars -string "Always" && \
+		echo "    ✓ Show scrollbars always"
+	@defaults write com.apple.finder AppleShowAllFiles true && \
+		echo "    ✓ Show hidden files in Finder"
+	@defaults write com.apple.finder ShowStatusBar -bool true && \
+		echo "    ✓ Show Finder status bar"
+	@defaults write com.apple.finder NewWindowTarget -string "PfLo" && \
+		defaults write com.apple.finder NewWindowTargetPath -string "file://$(HOME)" && \
+		echo "    ✓ Set Finder default location to home folder"
+	@chflags nohidden ~/Library && \
+		echo "    ✓ Unhide ~/Library"
+	@defaults write com.apple.screencapture location ~/Downloads && \
+		echo "    ✓ Set screenshot location to ~/Downloads"
+	@defaults write 'Apple Global Domain' NSAutomaticDashSubstitutionEnabled 0 && \
+		echo "    ✓ Disable smart dashes"
+	@defaults write 'Apple Global Domain' NSAutomaticQuoteSubstitutionEnabled 0 && \
+		echo "    ✓ Disable smart quotes"
+	@defaults write 'Apple Global Domain' NSAutomaticPeriodSubstitutionEnabled 0 && \
+		echo "    ✓ Disable automatic period substitution"
+	@defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false && \
+		echo "    ✓ Disable auto capitalization"
+	@defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false && \
+		echo "    ✓ Disable auto spelling correction"
+	@defaults write com.apple.menuextra.battery ShowPercent -string "YES" && \
+		echo "    ✓ Show battery percentage in menu bar"
+	@defaults write com.apple.dock orientation -string "right" && \
+		echo "    ✓ Set Dock position to right side"
+	@defaults write com.apple.dock autohide -bool false && \
+		echo "    ✓ Disable Dock auto-hide"
+	@killall Dock 2>/dev/null || true
+	@echo "    Note: Some changes may require logging out or restarting Finder"
+	@echo "    You can restart Finder with: killall Finder"
+
+setup-shell: bootstrap ## Change default shell to zsh (requires password)
+	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
+	ZSH_PATH="$$($(BREW_CMD) --prefix)/bin/zsh"; \
+	CURRENT_SHELL=$$(dscl . -read ~/ UserShell | awk '{print $$2}'); \
+	echo "--> Setting up zsh as default shell..."; \
+	if [ "$$CURRENT_SHELL" = "$$ZSH_PATH" ]; then \
+		echo "    ✓ zsh is already the default shell"; \
+	else \
+		echo "    Current shell: $$CURRENT_SHELL"; \
+		echo "    Target shell: $$ZSH_PATH"; \
+		if ! grep -Fxq "$$ZSH_PATH" /etc/shells; then \
+			echo "    Adding $$ZSH_PATH to /etc/shells (requires sudo)..."; \
+			echo "$$ZSH_PATH" | sudo tee -a /etc/shells > /dev/null; \
+		fi; \
+		echo "    Changing default shell (requires password)..."; \
+		chsh -s "$$ZSH_PATH"; \
+		echo "    ✓ Default shell changed to zsh"; \
+		echo "    Note: Restart your terminal for changes to take effect"; \
+	fi
+
 unstow: ## Unstow all dotfiles
-	@echo "--> Removing stowed dotfiles..."
-	@for pkg in $(PACKAGES); do \
+	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
+	echo "--> Removing stowed dotfiles..."; \
+	for pkg in $(PACKAGES); do \
 		stow -D --target=$(HOME) $$pkg; \
 		echo "    Unstowed $$pkg"; \
 	done
