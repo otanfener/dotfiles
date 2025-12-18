@@ -3,24 +3,40 @@
 # Use bash for all shell commands
 SHELL := /bin/bash
 
+# Homebrew installation path
+HOMEBREW_DIR := $(HOME)/.homebrew
+BREW_CMD := $(HOMEBREW_DIR)/bin/brew
+
 # --- Variables ---
 # List of all packages to stow. Add or remove package names here.
 PACKAGES := brew direnv editor ghostty git ideavim karabiner notes nvim ripgrep scripts tmux vim zsh
 
 # --- Phony targets (targets that don't represent files) ---
-.PHONY: all install stow unstow clean help
+.PHONY: all bootstrap install stow unstow clean help
 
 # --- Main targets ---
 
-all: install stow ## Run the full setup: install dependencies and stow dotfiles
+all: install stow ## Run the full setup: bootstrap Homebrew, install dependencies, and stow dotfiles
 
-install: ## Install all dependencies (Homebrew, fzf, LazyVim)
-	@echo "--> Installing Homebrew packages..."
-	@brew bundle --file=brew/.Brewfile
+bootstrap: ## Initialize Homebrew if not present
+	@echo "--> Checking for Homebrew..."
+	@if ! command -v brew > /dev/null 2>&1 && [ ! -x "$(BREW_CMD)" ]; then \
+		echo "    Homebrew not found. Installing to $(HOMEBREW_DIR)..."; \
+		git clone https://github.com/Homebrew/brew.git "$(HOMEBREW_DIR)"; \
+		echo "    ✓ Homebrew installed successfully"; \
+	else \
+		echo "    ✓ Homebrew already available"; \
+	fi
 
-	@echo "--> Installing fzf keybindings and completions..."
-	@if [ -f "$(brew --prefix)/opt/fzf/install" ]; then \
-		$(brew --prefix)/opt/fzf/install --all; \
+install: bootstrap ## Install all dependencies (Homebrew, fzf, LazyVim)
+	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
+	echo "--> Installing Homebrew packages..."; \
+	$(BREW_CMD) bundle --file=brew/.Brewfile
+
+	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \
+	echo "--> Installing fzf keybindings and completions..."; \
+	if [ -f "$$($(BREW_CMD) --prefix)/opt/fzf/install" ]; then \
+		$$($(BREW_CMD) --prefix)/opt/fzf/install --all; \
 	else \
 		echo "fzf not found. Please ensure it is in your Brewfile."; \
 	fi
