@@ -59,8 +59,10 @@ configure-macos: ## Configure macOS system defaults
 		echo "    ✓ Set Finder default location to home folder"
 	@chflags nohidden ~/Library && \
 		echo "    ✓ Unhide ~/Library"
-	@defaults write com.apple.screencapture location ~/Downloads && \
-		echo "    ✓ Set screenshot location to ~/Downloads"
+	@mkdir -p ~/Screenshots && \
+		echo "    ✓ Created ~/Screenshots directory"
+	@defaults write com.apple.screencapture location ~/Screenshots && \
+		echo "    ✓ Set screenshot location to ~/Screenshots"
 	@defaults write 'Apple Global Domain' NSAutomaticDashSubstitutionEnabled 0 && \
 		echo "    ✓ Disable smart dashes"
 	@defaults write 'Apple Global Domain' NSAutomaticQuoteSubstitutionEnabled 0 && \

@@ -15,3 +15,4 @@ shell-integration = zsh
 
 scrollback-limit = 100000000
 copy-on-select = clipboard
+keybind = shift+enter=text:\x1b\r
