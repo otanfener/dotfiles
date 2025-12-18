@@ -79,6 +79,8 @@ configure-macos: ## Configure macOS system defaults
 		echo "    ✓ Set Dock position to right side"
 	@defaults write com.apple.dock autohide -bool false && \
 		echo "    ✓ Disable Dock auto-hide"
+	@defaults write -g ApplePressAndHoldEnabled -bool false \
+		echo "    ✓ Disable press and hold"
 	@killall Dock 2>/dev/null || true
 	@echo "    Note: Some changes may require logging out or restarting Finder"
 	@echo "    You can restart Finder with: killall Finder"
