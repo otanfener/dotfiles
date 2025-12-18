@@ -132,14 +132,19 @@ PATH="$PATH:$HOME/gotools/bin"
 export GIT_SSH=/usr/bin/ssh
 
 # python: replace system python
-PATH="$HOMEBREW/opt/python@3.11/libexec/bin:$PATH"
+PATH="$HOMEBREW/opt/python@3/libexec/bin:$PATH"
 # gcloud completion scripts via brew cask installation
 if [ -f "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then # brew cask installation
-	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python@3.11/libexec/bin/python"
+	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python@3/libexec/bin/python"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# java: corretto (Amazon's OpenJDK distribution)
+if /usr/libexec/java_home -v "1.8+" >/dev/null 2>&1; then
+	export JAVA_HOME="$(/usr/libexec/java_home)"
+	PATH="$JAVA_HOME/bin:$PATH"
+fi
 # kubectl completion (w/ refresh cache every 48-hours)
 if command -v kubectl > /dev/null; then
 	kcomp="$HOME/.kube/.zsh_completion"
@@ -161,9 +166,9 @@ if command -v rg > /dev/null; then
  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs -g "!{node_modules, .git}"'
  export FZF_DEFAULT_OPTS='-m --height 50% --border'
 fi
-# zsh Tab
-if [[ -d "$HOME/Documents/code/library/fzf-tab" ]]; then
-	source "$HOME/Documents/code/library/fzf-tab/fzf-tab.plugin.zsh"
+# zsh Tab (fzf-tab)
+if [[ -d "$HOME/.local/share/zsh/plugins/fzf-tab" ]]; then
+	source "$HOME/.local/share/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh"
 fi
 # z completion
 if [ -f "$HOMEBREW/etc/profile.d/z.sh" ]; then
@@ -195,10 +200,6 @@ if command -v jump > /dev/null; then
 	eval "$(jump shell zsh)"
 fi
 
-# asdf hook
-# if command -v asdf > /dev/null; then
-# 	eval "$(asdf exec direnv hook zsh)"
-# fi
 #1password hook
 if command -v op > /dev/null; then
 	eval "$(op completion zsh)"; compdef _op op
@@ -208,8 +209,6 @@ if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
 then
    ZSH_TMUX_AUTOSTART=true
 fi
-# asdf bin
-# PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 #Kubernetes editor
 export KUBE_EDITOR=nvim
 #Editor

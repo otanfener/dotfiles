@@ -86,7 +86,6 @@ Edit files directly in their package directories (e.g., `zsh/.zshrc`, `git/.gitc
    mkdir -p myapp/.config/myapp
    echo "config content" > myapp/.config/myapp/config
    ```
-
 3. Add the package name to the `PACKAGES` variable in the Makefile
 
 4. Stow the new package:

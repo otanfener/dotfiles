@@ -12,11 +12,11 @@ BREW_CMD := $(HOMEBREW_DIR)/bin/brew
 PACKAGES := brew direnv editor ghostty git ideavim karabiner notes nvim ripgrep scripts tmux vim zsh
 
 # --- Phony targets (targets that don't represent files) ---
-.PHONY: all bootstrap install stow configure-macos setup-shell unstow clean help
+.PHONY: all bootstrap submodules install stow configure-macos setup-shell unstow clean help
 
 # --- Main targets ---
 
-all: bootstrap install stow configure-macos ## Run the full setup: bootstrap Homebrew, install dependencies, stow dotfiles, and configure macOS
+all: bootstrap submodules install stow configure-macos ## Run the full setup: bootstrap Homebrew, initialize submodules, install dependencies, stow dotfiles, and configure macOS
 
 bootstrap: ## Initialize Homebrew if not present
 	@echo "--> Checking for Homebrew..."
@@ -27,6 +27,11 @@ bootstrap: ## Initialize Homebrew if not present
 	else \
 		echo "    ✓ Homebrew already available"; \
 	fi
+
+submodules: ## Initialize and update git submodules
+	@echo "--> Initializing git submodules..."
+	@git submodule update --init --recursive
+	@echo "    ✓ Submodules initialized and updated"
 
 install: ## Install Homebrew packages
 	@export PATH="$(HOMEBREW_DIR)/bin:$(HOMEBREW_DIR)/sbin:$$PATH"; \

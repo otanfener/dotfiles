@@ -66,14 +66,18 @@ brew 'imagemagick'
 brew 'tectonic'
 brew 'luajit'
 brew 'markdownlint-cli2'
+brew 'mermaid-cli'
 
 # Languages
 brew 'go'
 brew 'fnm'
+brew 'rust'
+cask 'corretto'
+brew 'luarocks'
+brew 'golangci-lint'
 
 # Container
 cask 'docker-desktop'
-brew 'docker-compose'
 
 # Tooling
 brew 'aria2'
