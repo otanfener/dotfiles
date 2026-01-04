@@ -67,6 +67,7 @@ brew 'tectonic'
 brew 'luajit'
 brew 'markdownlint-cli2'
 brew 'mermaid-cli'
+brew 'pandoc'
 
 # Languages
 brew 'go'

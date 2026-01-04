@@ -1,7 +1,24 @@
+function jwt_decode() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: jwt_decode <jwt_token>"
+        return 1
+    fi
+    
+    local jwt="$1"
+    
+    # Split JWT into parts
+    local header=$(echo "$jwt" | cut -d. -f1)
+    local payload=$(echo "$jwt" | cut -d. -f2)
+    
+    echo "=== Header ==="
+    echo "$header" | base64 -d 2>/dev/null | jq . 2>/dev/null || echo "$header" | base64 -d 2>/dev/null
+    
+    echo "\n=== Payload ==="
+    echo "$payload" | base64 -d 2>/dev/null | jq . 2>/dev/null || echo "$payload" | base64 -d 2>/dev/null
+}
 function rgf {
     rg --files $2 | rg $1
 }
-
 function transfer() {
     curl --progress-bar --upload-file "$1" https://free.keep.sh/$(basename "$1") -H "Expires-After 1" | tee /dev/null;
     echo

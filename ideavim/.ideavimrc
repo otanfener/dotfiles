@@ -486,3 +486,15 @@ vnoremap < <gv
 
 "Copilot mapping
 nnoremap <leader>aa :action copilot.chat.show<CR>
+"Bookmark"
+nnoremap mA :action ToggleBookmark0<CR>
+nnoremap mB :action ToggleBookmark1<CR>
+nnoremap mC :action ToggleBookmark2<CR>
+nnoremap mD :action ToggleBookmark3<CR>
+nnoremap mE :action ToggleBookmark4<CR>
+
+nnoremap `A :action GotoBookmark0<CR>
+nnoremap `B :action GotoBookmark1<CR>
+nnoremap `C :action GotoBookmark2<CR>
+nnoremap `D :action GotoBookmark3<CR>
+nnoremap `E :action GotoBookmark4<CR>
