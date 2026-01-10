@@ -2,6 +2,9 @@ font-family = Hack Nerd Font
 font-thicken = true
 font-size = 20
 
+mouse-hide-while-typing=true
+cursor-style-blink=false
+cursor-style=block
 
 macos-option-as-alt = true
 macos-titlebar-style = tabs
@@ -12,24 +15,20 @@ window-height = 30
 
 confirm-close-surface = false
 shell-integration = zsh
-mouse-hide-while-typing=true
+
+resize-overlay = never
+window-save-state = always
+window-inherit-working-directory=true
 
 scrollback-limit = 100000000
 copy-on-select = clipboard
-keybind = shift+enter=text:\x1b\r
 
-keybind = ctrl+b>h=goto_split:left
-keybind = ctrl+b>j=goto_split:bottom
-keybind = ctrl+b>k=goto_split:top
-keybind = ctrl+b>l=goto_split:right
+keybind = super+h=goto_split:left
+keybind = super+j=goto_split:bottom
+keybind = super+k=goto_split:top
+keybind = super+l=goto_split:right
 
-keybind = ctrl+b>shift+minus=new_split:down
-keybind = ctrl+b>-=new_split:right
-keybind = ctrl+b>f=toggle_split_zoom
 
-keybind = ctrl+b>n=next_tab
-keybind = ctrl+b>p=previous_tab
-
+keybind = shift+enter=text:\n
 keybind = super+r=reload_config
 
-window-save-state = always

@@ -7,6 +7,11 @@ return {
       popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = true,
+      window = {
+        mappings = {
+          ["c"] = "none", -- Disable copy to free up <leader>c prefix
+        },
+      },
 
       filesystem = {
         filtered_items = {
