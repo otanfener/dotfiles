@@ -21,3 +21,22 @@ vim.api.nvim_create_autocmd("User", {
     vim.cmd("Neotree close")
   end,
 })
+
+-- OSC7: Report current working directory to terminal
+-- Enables tmux/terminal splits to open in Neovim's current directory
+local function osc7_notify()
+  local cwd = vim.fn.getcwd()
+  local hostname = vim.fn.hostname()
+  local osc7 = string.format("\027]7;file://%s%s\027\\", hostname, cwd)
+  vim.fn.chansend(vim.v.stderr, osc7)
+end
+
+vim.api.nvim_create_autocmd({ "VimEnter", "DirChanged", "BufEnter" }, {
+  callback = osc7_notify,
+})
+
+vim.api.nvim_create_autocmd("VimLeave", {
+  callback = function()
+    vim.fn.chansend(vim.v.stderr, "\027]7;\027\\")
+  end,
+})

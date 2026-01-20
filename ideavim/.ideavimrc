@@ -55,7 +55,8 @@ set smartindent
 nnoremap \e :e ~/.ideavimrc<CR>
 nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
 "Window Management"
-nnoremap <s-x> :action HideAllWindows<CR>
+" Hide all other windows (matches LazyVim default: <C-w>o)
+nnoremap <C-w>o :action HideAllWindows<CR>
 nnoremap <leader>n :action EditSourceInNewWindow<CR>
 "Clone Caret"
 nnoremap <leader>c :action EditorCloneCaretBelow<CR>

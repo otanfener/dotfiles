@@ -33,3 +33,7 @@ map(
 )
 
 vim.keymap.set("n", "<leader>bw", "<cmd>bufdo bwipeout<cr>", { desc = "Close all buffers" })
+
+vim.keymap.set("n", "<leader>zn", function()
+  require("zk.commands").get("ZkNew")({ dir = "0-inbox" })
+end, { noremap = true, silent = false })

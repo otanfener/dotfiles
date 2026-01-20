@@ -68,6 +68,7 @@ brew 'luajit'
 brew 'markdownlint-cli2'
 brew 'mermaid-cli'
 brew 'pandoc'
+brew 'zk'
 
 # Languages
 brew 'go'
