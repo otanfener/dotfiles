@@ -9,7 +9,7 @@ BREW_CMD := $(HOMEBREW_DIR)/bin/brew
 
 # --- Variables ---
 # List of all packages to stow. Add or remove package names here.
-PACKAGES := brew editor ghostty git ideavim nvim ripgrep scripts tmux zsh zk
+PACKAGES := brew editor ghostty git ideavim nvim ripgrep tmux zsh zk
 
 # --- Phony targets (targets that don't represent files) ---
 .PHONY: all bootstrap submodules install stow configure-macos setup-shell unstow clean help
