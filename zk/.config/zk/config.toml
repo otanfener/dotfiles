@@ -60,7 +60,7 @@ colon-tags = true
 editor = "nvim"
 
 # Default shell used by aliases and commands.
-shell = "/bin/bash"
+shell = "/bin/zsh"
 
 # Pager used to scroll through long output.
 pager = "less -FIRX"
