@@ -50,6 +50,7 @@ set colorcolumn=80
 set idearefactormode=keep
 set autoindent
 set smartindent
+set multiple-cursors
 
 "Reload configuration"
 nnoremap \e :e ~/.ideavimrc<CR>
@@ -169,6 +170,8 @@ nmap <leader>gG <Action>(ActivateCommitToolWindow)
 nmap <leader>gb <Action>(Annotate)
 " Git Browse
 nmap <leader>gB <Action>(Vcs.Show.Log)
+"Diff view next diff
+nmap <leader>nD <Action>(NextDiff)
 " Lazygit Current File History
 nmap <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
 " Lazygit Log
@@ -238,6 +241,8 @@ nmap gD <Action>(GotoDeclaration)
 nmap gK <Action>(ParameterInfo)
 " Go to Super Method
 nnoremap gP :action GotoSuperMethod<CR>
+" Go to type hierarchy
+nnoremap gh :action TypeHierarchy<CR>
 
 imap <C-k> <C-o><Action>(ParameterInfo)
 " Code Action
@@ -318,6 +323,11 @@ nmap <leader>fR <Action>(RecentFiles)
 nmap <leader>gc <Action>(Vcs.Show.Log)
 " Status
 nmap <leader>gs <Action>(Vcs.Show.Log)
+" Selection history
+vnoremap <leader>b :action Vcs.ShowHistoryForBlock<CR>
+" History
+nmap <leader>fh  <Action>(LocalHistory.ShowHistory)<CR>
+
 " Registers
 nmap <leader>s" :registers<cr>
 " Auto Commands
@@ -487,7 +497,13 @@ vnoremap < <gv
 
 "Copilot mapping
 nnoremap <leader>aa :action copilot.chat.show<CR>
-"Bookmark"
+
+" Multiple cursor
+nmap <S-C-n> <Plug>AllWholeOccurrences
+xmap <S-C-n> <Plug>AllWholeOccurrences
+nmap g<S-C-n> <Plug>AllOccurrences
+xmap g<S-C-n> <Plug>AllOccurrences
+" Bookmark
 nnoremap mA :action ToggleBookmark0<CR>
 nnoremap mB :action ToggleBookmark1<CR>
 nnoremap mC :action ToggleBookmark2<CR>
