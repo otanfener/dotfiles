@@ -2,7 +2,7 @@
 dir = "/Users/ozantanfener/Library/Mobile Documents/iCloud~md~obsidian/Documents/notes"
 # NOTE SETTINGS
 [note]
-
+default-dir = "0-inbox"
 # Language used when writing notes.
 # This is used to generate slugs or with date formats.
 language = "en"
