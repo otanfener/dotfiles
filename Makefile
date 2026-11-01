@@ -3,8 +3,8 @@
 # Use bash for all shell commands
 SHELL := /bin/bash
 
-# Homebrew installation path
-HOMEBREW_DIR := $(HOME)/.homebrew
+# Homebrew (Apple Silicon default: /opt/homebrew)
+HOMEBREW_DIR := /opt/homebrew
 BREW_CMD := $(HOMEBREW_DIR)/bin/brew
 
 # --- Variables ---
@@ -20,12 +20,11 @@ all: bootstrap submodules install stow configure-macos ## Run the full setup: bo
 
 bootstrap: ## Initialize Homebrew if not present
 	@echo "--> Checking for Homebrew..."
-	@if ! command -v brew > /dev/null 2>&1 && [ ! -x "$(BREW_CMD)" ]; then \
-		echo "    Homebrew not found. Installing to $(HOMEBREW_DIR)..."; \
-		git clone https://github.com/Homebrew/brew.git "$(HOMEBREW_DIR)"; \
-		echo "    ✓ Homebrew installed successfully"; \
-	else \
+	@if [[ -x /opt/homebrew/bin/brew ]] || [[ -x /usr/local/bin/brew ]] || command -v brew > /dev/null 2>&1; then \
 		echo "    ✓ Homebrew already available"; \
+	else \
+		echo "    Homebrew not found. Install from https://brew.sh"; \
+		exit 1; \
 	fi
 
 submodules: ## Initialize and update git submodules

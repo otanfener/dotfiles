@@ -26,8 +26,7 @@ Synchronize personal dotfiles, install required packages and configure related M
    ```
 
    This will:
-   - Install Homebrew to `$HOME/.homebrew` (if not already present)
-   - Install all packages from `brew/.Brewfile`
+   - Install Homebrew from [brew.sh](https://brew.sh) if missing, then install packages from `brew/.Brewfile`
    - Configure fzf keybindings and completions
    - Set up Neovim with LazyVim starter
    - Create symlinks for all dotfiles using GNU Stow
@@ -49,6 +48,8 @@ Synchronize personal dotfiles, install required packages and configure related M
 ### Update Configuration Files
 
 Edit files directly in their package directories (e.g., `zsh/.zshrc`, `git/.gitconfig`). Changes take effect immediately due to Stow symlinks.
+
+**`~/.zprofile`** is intentionally **not** stowed: keep per-machine secrets and PATH tweaks there. Shared shell setup (including Homebrew) lives in the stowed **`~/.zshrc`**.
 
 ### Add a New Package
 
@@ -110,7 +111,7 @@ brew analytics
 The fzf keybindings and completions are installed automatically. If you need to reinstall:
 
 ```bash
-$HOME/.homebrew/opt/fzf/install --all
+$(HOMEBREW_PREFIX)/opt/fzf/install --all
 ```
 
 ### Mermaid CLI (Optional)

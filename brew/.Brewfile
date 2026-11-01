@@ -48,7 +48,6 @@ brew 'lazygit'
 brew 'hub'
 brew 'ripgrep'
 brew 'fd'
-brew 'tldr'
 brew 'shellcheck'
 brew 'fzf'
 brew 'jq'
@@ -84,6 +83,8 @@ cask 'docker-desktop'
 # Tooling
 brew 'aria2'
 brew 'rclone'
+tap 'hashicorp/tap'
+brew 'hashicorp/tap/terraform'
 
 # Desktop
 cask 'rectangle'

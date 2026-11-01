@@ -87,23 +87,24 @@ else
 fi
 
 # Homebrew install path customization
-	export HOMEBREW="$HOME/.homebrew"
-	if [ ! -d "$HOMEBREW" ]; then
-		# fallback
-        export HOMEBREW=/opt/homebrew # newer
-        if [ ! -d "$HOMEBREW" ]; then
-            export HOMEBREW=/usr/local
-        fi
-	fi
+# Reference brew by absolute path since /opt/homebrew/bin isn't in the
+# default system PATH (/etc/paths) and brew shellenv is what adds it.
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+if [[ -x /opt/homebrew/bin/brew ]]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+	eval "$(/usr/local/bin/brew shellenv)"
+elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else
+	echo >&2 "Skipping homebrew initialization in shell."
+fi
 
-	export HOMEBREW_NO_ANALYTICS=1
-	export HOMEBREW_NO_INSECURE_REDIRECT=1
-
-	PATH="$HOMEBREW/bin:$HOMEBREW/sbin:$PATH"
-
-	# Add zsh completion scripts installed via Homebrew
-	fpath=("$HOMEBREW/share/zsh-completions" $fpath)
-	fpath=("$HOMEBREW/share/zsh/site-functions" $fpath)
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+	fpath=("$HOMEBREW_PREFIX/share/zsh-completions" $fpath)
+	fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
+fi
 
 # Reload the zsh-completions
 autoload -U compinit
@@ -113,14 +114,16 @@ else
   compinit -i -C # Load from the cache
 fi
 # coreutils
-MANPATH="$HOMEBREW/opt/coreutils/libexec/gnuman:$MANPATH"
-PATH="$HOMEBREW/opt/coreutils/libexec/gnubin:$PATH"
-PATH="$HOMEBREW/opt/gnu-getopt/bin:$PATH"
-PATH="$HOMEBREW/opt/gnu-indent/libexec/gnubin:$PATH"
-PATH="$HOMEBREW/opt/gnu-tar/libexec/gnubin:$PATH"
-PATH="$HOMEBREW/opt/gnu-sed/libexec/gnubin:$PATH"
-PATH="$HOMEBREW/opt/grep/libexec/gnubin:$PATH"
-PATH="$HOMEBREW/opt/gnu-time/libexec/gnubin:$PATH"
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+MANPATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
+PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/gnu-getopt/bin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/gnu-indent/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/grep/libexec/gnubin:$PATH"
+PATH="$HOMEBREW_PREFIX/opt/gnu-time/libexec/gnubin:$PATH"
+fi
 
 # go tools
 PATH="$PATH:$HOME/gotools/bin"
@@ -128,30 +131,36 @@ PATH="$PATH:$HOME/gotools/bin"
 export GIT_SSH=/usr/bin/ssh
 
 # python: replace system python
-PATH="$HOMEBREW/opt/python@3/libexec/bin:$PATH"
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+	PATH="$HOMEBREW_PREFIX/opt/python@3/libexec/bin:$PATH"
+fi
 # gcloud completion scripts via brew cask installation
-if [ -f "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then # brew cask installation
-	export CLOUDSDK_PYTHON="/$HOMEBREW/opt/python@3/libexec/bin/python"
-	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-	source "$HOMEBREW/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+GCLOUD_SDK="${HOMEBREW_PREFIX:-}/share/google-cloud-sdk"
+if [[ -f "${HOMEBREW_PREFIX:-}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]]; then
+	GCLOUD_SDK="$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
+fi
+if [[ -f "$GCLOUD_SDK/path.zsh.inc" && -n "${HOMEBREW_PREFIX:-}" ]]; then
+	export CLOUDSDK_PYTHON="$HOMEBREW_PREFIX/opt/python@3/libexec/bin/python"
+	source "$GCLOUD_SDK/path.zsh.inc"
+	source "$GCLOUD_SDK/completion.zsh.inc"
 fi
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-# java: corretto (Amazon's OpenJDK distribution)
-if /usr/libexec/java_home -v "1.8+" >/dev/null 2>&1; then
+# java: fallback to macOS-selected Java only when SDKMAN is unavailable
+if [ ! -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && /usr/libexec/java_home -v "1.8+" >/dev/null 2>&1; then
 	export JAVA_HOME="$(/usr/libexec/java_home)"
 	PATH="$JAVA_HOME/bin:$PATH"
 fi
-# kubectl completion (w/ refresh cache every 48-hours)
+# kubectl completion (refresh cache every 48 hours)
 if command -v kubectl > /dev/null; then
 	kcomp="$HOME/.kube/.zsh_completion"
-	if [ ! -f "$kcomp" ] ||  [ "$(( $(date +"%s") - $(stat -c "%Y" "$kcomp") ))" -gt "172800" ]; then
+	if [[ ! -f "$kcomp" ]] || [[ -n ${kcomp}(N.mh+48) ]]; then
 		mkdir -p "$(dirname "$kcomp")"
 		kubectl completion zsh > "$kcomp"
 	fi
 	source "$kcomp"
 fi
 
-# fzf completion. run $HOMEBREW/opt/fzf/install to create the ~/.fzf.* script
+# fzf completion. run $HOMEBREW_PREFIX/opt/fzf/install to create the ~/.fzf.* script
 if type fzf &>/dev/null && [ -f ~/.fzf.zsh ]; then
 	source ~/.fzf.zsh
 else
@@ -167,15 +176,15 @@ if [[ -d "$HOME/.local/share/zsh/plugins/fzf-tab" ]]; then
 	source "$HOME/.local/share/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh"
 fi
 # z completion
-if [ -f "$HOMEBREW/etc/profile.d/z.sh" ]; then
-    . "$HOMEBREW/etc/profile.d/z.sh"
+if [[ -f "${HOMEBREW_PREFIX:-}/etc/profile.d/z.sh" ]]; then
+    . "$HOMEBREW_PREFIX/etc/profile.d/z.sh"
 fi
 # load zsh plugins installed via brew
-if [[ -d "$HOMEBREW/share/zsh-syntax-highlighting" ]]; then
-	source "$HOMEBREW/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [[ -d "${HOMEBREW_PREFIX:-}/share/zsh-syntax-highlighting" ]]; then
+	source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
-if [[ -d "$HOMEBREW/share/zsh-autosuggestions" ]]; then
-	source "$HOMEBREW/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [[ -d "${HOMEBREW_PREFIX:-}/share/zsh-autosuggestions" ]]; then
+	source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 bindkey '^ ' autosuggest-accept
@@ -201,30 +210,24 @@ if command -v op > /dev/null; then
 	eval "$(op completion zsh)"; compdef _op op
 fi
 
-if [ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]
-then
+if [[ "$TERMINAL_EMULATOR" != "JetBrains-JediTerm" ]] && command -v tmux > /dev/null; then
    ZSH_TMUX_AUTOSTART=true
 fi
 #Kubernetes editor
 export KUBE_EDITOR=nvim
 #Editor
 export EDITOR=nvim
-# Export path
-export PATH
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ozantanfener/.homebrew/share/google-cloud-sdk/completion.zsh.inc'; fi
-
 # fnm
-FNM_PATH="/Users/ozantanfener/.homebrew/opt/fnm/bin"
-if [ -d "$FNM_PATH" ]; then
+if [[ -d "${HOMEBREW_PREFIX:-}/opt/fnm/bin" ]]; then
   eval "$(fnm env --use-on-cd --shell zsh)"
 fi
-
 
 if [ -f "$HOME/.local/bin/env" ]; then
   . "$HOME/.local/bin/env"
 fi
+
+export PATH
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
